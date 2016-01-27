@@ -1,0 +1,28 @@
+<div class="col-xs-12">
+	<div class="headers text-center">
+		<h1>Signup!</h1>
+	</div>
+	<%= form_for :user, url: '/users' do |f| %>
+		<div class="form-group">
+			<%= f.label :name %>
+			<%= f.text_field :name, class: "form-control" %>
+		</div>
+		<div class="form-group">
+			<%= f.label :email %>
+			<%= f.text_field :email, class: "form-control" %>
+		</div>
+		<div class="form-group">
+			<%= f.label :password %>
+			<%= f.password_field :password, class: "form-control" %>
+		</div>
+		<div class="form-group">
+			<%= f.label :password_confirmation %>
+			<%= f.password_field :password_confirmation, class: "form-control" %>
+		</div>
+		<div class="form-group">
+			<%= f.submit "Submit", class: 'btn btn-default' %>
+		</div>
+	<% end %>
+</div>
+
+

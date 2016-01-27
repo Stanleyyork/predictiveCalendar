@@ -1,0 +1,49 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  attendees_id: 1
+  attachments: false
+  anyone_can_add_self: false
+  created: 
+  creator: MyString
+  description: MyString
+  end: 
+  guests_can_invite_others: false
+  guests_can_see_other_guests: false
+  id: 1
+  location: MyString
+  organizer: MyString
+  original_start_time: 
+  recurrence: false
+  recurring_event_id: 1
+  reminders: MyString
+  start: 
+  status: MyString
+  summary: MyString
+  update: 
+  visibility: MyString
+
+two:
+  user_id: 1
+  attendees_id: 1
+  attachments: false
+  anyone_can_add_self: false
+  created: 
+  creator: MyString
+  description: MyString
+  end: 
+  guests_can_invite_others: false
+  guests_can_see_other_guests: false
+  id: 1
+  location: MyString
+  organizer: MyString
+  original_start_time: 
+  recurrence: false
+  recurring_event_id: 1
+  reminders: MyString
+  start: 
+  status: MyString
+  summary: MyString
+  update: 
+  visibility: MyString
