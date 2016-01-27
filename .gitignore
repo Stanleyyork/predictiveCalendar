@@ -11,3 +11,5 @@
 /log/*
 !/log/.keep
 /tmp
+/app/classes/API/client_secret.json
+.env

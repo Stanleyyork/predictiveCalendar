@@ -5,23 +5,23 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :attendees_id
       t.boolean :attachments
       t.boolean :anyone_can_add_self
-      t.date_time :created
+      t.timestamp :created
       t.string :creator
       t.string :description
-      t.date_time :end
+      t.timestamp :end
       t.boolean :guests_can_invite_others
       t.boolean :guests_can_see_other_guests
-      t.integer :id
+      t.integer :gcal_event_id
       t.string :location
       t.string :organizer
-      t.date_time :original_start_time
+      t.timestamp :original_start_time
       t.boolean :recurrence
       t.integer :recurring_event_id
       t.string :reminders
-      t.date_time :start
+      t.timestamp :start
       t.string :status
       t.string :summary
-      t.date_time :update
+      t.timestamp :update
       t.string :visibility
 
       t.timestamps null: false
