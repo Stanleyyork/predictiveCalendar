@@ -1,9 +1,16 @@
 class UsersController < ApplicationController
+
+  OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
   def new
     if current_user
       redirect_to '/'
     end
     @user = User.new
+  end
+
+  def index
+    @events = Calendar.calCall.list_events('primary')
   end
 
   def create

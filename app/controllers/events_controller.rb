@@ -3,6 +3,7 @@ class EventsController < ApplicationController
   end
 
   def index
+    @events = Calendar.calCall.list_events('primary')
   end
 
   def update
