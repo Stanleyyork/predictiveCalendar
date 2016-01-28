@@ -7,6 +7,22 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-4">
+				<a class="navbar-brand" href="#">
+			    	<span class="glyphicon glyphicon-calendar" id="nav-brand"></span>
+			    </a>
+			</div>
+			<div class="col-xs-6 navbar-right">
+				<p class="navbar-text navbar-right"><a href="/profile" class="navbar-link">Profile</a></p>
+				<p class="navbar-text navbar-right"><a href="/events" class="navbar-link">Events</a></p>
+				<p class="navbar-text navbar-right"><a href="/settings" class="navbar-link">Settings</a></p>
+			</div>
+		</div> 
+  </div>
+</nav>
 
 <%= yield %>
 

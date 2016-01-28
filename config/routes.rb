@@ -5,6 +5,11 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy'
   get '/signup' => 'users#new'
   post '/users' => 'users#create'
-  get '/index' => 'events#index'
+  get '/settings' => 'users#edit'
+  get '/import_events' => 'users#redirect'
+  get '/oauth2callback' => 'users#callback'
+  get '/events/create' => 'events#create'
+  get '/events' => 'events#index'
+  get '/profile' => 'users#show'
 
 end

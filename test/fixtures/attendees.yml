@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  gcal_attendee_id: 1
+  email: MyString
+  display_name: MyString
+  organizer: false
+  self: false
+  resource: false
+  optional: false
+  response_status: MyString
+  comment: MyString
+  additional_guests: 1
+
+two:
+  gcal_attendee_id: 1
+  email: MyString
+  display_name: MyString
+  organizer: false
+  self: false
+  resource: false
+  optional: false
+  response_status: MyString
+  comment: MyString
+  additional_guests: 1

@@ -11,15 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160127063507) do
+ActiveRecord::Schema.define(version: 20160128204342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "attendees", force: :cascade do |t|
+    t.integer  "gcal_attendee_id"
+    t.string   "email"
+    t.string   "display_name"
+    t.boolean  "organizer"
+    t.boolean  "self"
+    t.boolean  "resource"
+    t.boolean  "optional"
+    t.string   "response_status"
+    t.string   "comment"
+    t.integer  "additional_guests"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "event_id"
+  end
+
   create_table "calendars", force: :cascade do |t|
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "code"
+    t.string   "refresh_token"
   end
 
   create_table "events", force: :cascade do |t|
@@ -43,10 +61,15 @@ ActiveRecord::Schema.define(version: 20160127063507) do
     t.datetime "start"
     t.string   "status"
     t.string   "summary"
-    t.datetime "update"
+    t.datetime "updated"
     t.string   "visibility"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.boolean  "creator_self"
+    t.string   "organizer_name"
+    t.string   "organizer_email"
+    t.boolean  "organizer_self"
+    t.string   "html_link"
   end
 
   create_table "users", force: :cascade do |t|

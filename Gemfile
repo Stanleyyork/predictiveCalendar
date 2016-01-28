@@ -28,7 +28,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
 
 # Google Calendar API
-gem 'google-api-client'
+gem 'google-api-client', '~> 0.9', require: 'google/apis/calendar_v3'
+# Signet
+gem 'signet'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

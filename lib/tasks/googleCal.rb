@@ -5,43 +5,81 @@ require 'fileutils'
 
 class CalendarClass
 
-  def apiCall()
-    oOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
-    aPPLICATION_NAME = 'Google Calendar API Ruby Quickstart'
-    cLIENT_SECRETS_PATH = './lib/tasks/client_secret.json'
-    cREDENTIALS_PATH = File.join(Dir.home, '.credentials',
-                                 "calendar-ruby-quickstart.yaml")
-    sCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
-    #OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
-    
-    # Initialize the API
+  def initial_save(user)
+    @user = user
+    token = Calendar.where(user_id: @user.id).last.code
+    client = Signet::OAuth2::Client.new(access_token: token)
     service = Google::Apis::CalendarV3::CalendarService.new
-    service.client_options.application_name = aPPLICATION_NAME
-    service.authorization = authorize(oOB_URI, sCOPE, cREDENTIALS_PATH, cLIENT_SECRETS_PATH)
-
-    return service
-  end
-
-  def authorize(oOB_URI, sCOPE, cREDENTIALS_PATH, cLIENT_SECRETS_PATH)
-    puts "hello"
-    FileUtils.mkdir_p(File.dirname(cREDENTIALS_PATH))
-    client_id = Google::Auth::ClientId.from_file(cLIENT_SECRETS_PATH)
-    token_store = Google::Auth::Stores::FileTokenStore.new(file: cREDENTIALS_PATH)
-    authorizer = Google::Auth::UserAuthorizer.new(client_id, sCOPE, token_store)
-    user_id = 'default'
-    credentials = authorizer.get_credentials(user_id)
-    if credentials.nil?
-      url = authorizer.get_authorization_url(base_url: oOB_URI)
-      puts "inside not authorized"
-      return "url: #{url}"
-      code = gets
-      credentials = authorizer.get_and_store_credentials_from_code(
-        user_id: user_id, code: code, base_url: oOB_URI)
+    service.authorization = client
+    service.list_events('primary').items.each do |e|
+      event_attributes = {
+        user_id: user.id,
+        attachments: e.attachments,
+        anyone_can_add_self: e.anyone_can_add_self,
+        created: e.created,
+        creator: e.creator.display_name,
+        creator_self: e.creator.self,
+        description: e.description,
+        end: e.end.date.nil? ? nil : e.end.date,
+        html_link: e.html_link,
+        guests_can_invite_others: e.guests_can_invite_others,
+        guests_can_see_other_guests: e.guests_can_see_other_guests,
+        gcal_event_id: e.id,
+        location: e.location,
+        organizer_name: e.organizer.display_name,
+        organizer_email: e.organizer.email,
+        organizer_self: e.organizer.self,
+        original_start_time: e.original_start_time.nil? ? nil : e.original_start_time,
+        recurrence: e.recurrence,
+        recurring_event_id: e.recurring_event_id,
+        reminders: e.reminders.hash.to_s,
+        start: e.start.date_time.nil? ? nil : e.start.date_time,
+        status: e.status,
+        summary: e.summary,
+        updated: e.updated,
+        visibility: e.visibility
+      }
+      event = Event.new(event_attributes)
+      event.save
+      if !e.attendees.nil?
+        e.attendees.each do |a|
+          a = Attendee.new(a.to_h)
+          a.event_id = e.id
+          puts a
+          puts "==="
+          a.save
+        end
+      end
     end
-    return credentials
   end
 
 end
+
+#
+#     t.integer  "user_id"
+#     t.integer  "attendees_id"
+#     t.boolean  "attachments"
+#     t.boolean  "anyone_can_add_self"
+#     t.datetime "created"
+#     t.string   "creator"
+#     t.string   "description"
+#     t.datetime "end"
+#     t.boolean  "guests_can_invite_others"
+#     t.boolean  "guests_can_see_other_guests"
+#     t.integer  "gcal_event_id"
+#     t.string   "location"
+#     t.string   "organizer"
+#     t.datetime "original_start_time"
+#     t.boolean  "recurrence"
+#     t.integer  "recurring_event_id"
+#     t.string   "reminders"
+#     t.datetime "start"
+#     t.string   "status"
+#     t.string   "summary"
+#     t.datetime "updated"
+#     t.string   "visibility"
+#     t.datetime "created_at",                  null: false
+#     t.datetime "updated_at",
 
 ## to_h
 # attendees

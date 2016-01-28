@@ -1,6 +1,44 @@
 class UsersController < ApplicationController
 
+  require 'signet/oauth_2/client'
   OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
+
+
+  def redirect
+    client = Signet::OAuth2::Client.new({
+      client_id: ENV.fetch('GOOGLE_API_CLIENT_ID'),
+      client_secret: ENV.fetch('GOOGLE_API_CLIENT_SECRET'),
+      authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
+      scope: Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY,
+      redirect_uri: 'http://localhost:3000/oauth2callback'
+    })
+
+    redirect_to client.authorization_uri.to_s
+  end
+
+  def callback
+    @user = current_user
+    client = Signet::OAuth2::Client.new({
+      client_id: ENV.fetch('GOOGLE_API_CLIENT_ID'),
+      client_secret: ENV.fetch('GOOGLE_API_CLIENT_SECRET'),
+      token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
+      redirect_uri: url_for(:action => :callback),
+      code: params[:code]
+    })
+    response = client.fetch_access_token!
+    c = Calendar.new
+    c.user_id = current_user.id
+    c.code = response['access_token']
+    c.save
+    session[:access_token] = response['access_token']
+
+    redirect_to '/events/create'
+  end
+
+  def show
+    @events = Event.where(user_id: current_user.id)
+  end
 
   def new
     if current_user
@@ -25,6 +63,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(current_user.id)
+    @no_events = Event.where(user_id: @user.id).empty?
   end
 
   def update
