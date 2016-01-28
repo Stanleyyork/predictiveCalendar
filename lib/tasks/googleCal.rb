@@ -12,21 +12,31 @@ class CalendarClass
   #  that have changed since this result was returned. Omitted if further results are
   #  available, in which case nextPageToken is provided.
 
-  def initial_save(user, page_token='')
+  def sync(user, page_token='')
     @user = user
     token = Calendar.where(user_id: @user.id).last.code
     last_cal = Calendar.where(user_id: @user.id).last
     client = Signet::OAuth2::Client.new(access_token: token)
     service = Google::Apis::CalendarV3::CalendarService.new
     service.authorization = client
-    
-    if(page_token == '')
+
+    if(last_cal.next_sync_token)
+      puts "sync token"
+      puts "#{last_cal.next_sync_token}"
+      events_array = service.list_events('primary', max_results: 2500, sync_token: last_cal.next_sync_token)
+    elsif(page_token == '')
+      puts "no page token"
       events_array = service.list_events('primary', max_results: 2500)
     else
+      puts "page token"
       events_array = service.list_events('primary', max_results: 2500, page_token: page_token)
     end
     
-    parseAndSave(events_array, user, last_cal)
+    if(events_array.items.empty?)
+      return "No calendar events to sync."
+    else
+      parseAndSave(events_array, user, last_cal)
+    end
 
     if(events_array.next_page_token)
       initial_save(user, events_array.next_page_token)
@@ -38,13 +48,14 @@ class CalendarClass
 
   def parseAndSave(events_array, user, last_cal)
     events_array.items.each do |e|
-      puts e.creator
-      puts e.organizer
+      existEvent = Event.find_by_gcal_event_id(e.id)
       event_attributes = {
         user_id: user.id,
         calendar_id: last_cal.id,
         attachments: e.attachments,
         anyone_can_add_self: e.anyone_can_add_self,
+        syncd_and_changed: !existEvent.nil?,
+        round: existEvent.nil? ? 1 : existEvent.round + 1,
         created: e.created,
         creator: e.creator.try(:display_name),
         creator_self: e.creator.try(:self),
@@ -68,11 +79,14 @@ class CalendarClass
         updated: e.updated,
         visibility: e.visibility
       }
-      event = Event.new(event_attributes)
+
+      event = Event.new()
+      event.update_attributes(event_attributes)
       event.save
       if !e.attendees.nil?
         e.attendees.each do |a|
           a = Attendee.new(a.to_h)
+          a.round = existEvent.nil? ? 1 : existEvent.round + 1
           a.event_id = e.id
           a.save
         end

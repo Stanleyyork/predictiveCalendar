@@ -27,11 +27,13 @@ class UsersController < ApplicationController
       code: params[:code]
     })
     response = client.fetch_access_token!
-    c = Calendar.new
-    c.user_id = current_user.id
-    c.code = response['access_token']
-    c.save
-    session[:access_token] = response['access_token']
+    if Calendar.find_by_user_id(@user.id).nil?
+      c = Calendar.new
+      c.user_id = current_user.id
+      c.code = response['access_token']
+      c.save
+    end
+    #session[:access_token] = response['access_token']
 
     redirect_to '/events/create'
   end
