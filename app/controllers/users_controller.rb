@@ -39,6 +39,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = current_user
     @events = Event.where(user_id: current_user.id)
   end
 

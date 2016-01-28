@@ -10,10 +10,11 @@ class SessionsController < ApplicationController
       # Save the user id inside the browser cookie. This is how we keep the user 
       # logged in when they navigate around our website.
       session[:user_id] = user.id
-      puts "errors: #{user.errors}"
       redirect_to '/profile'
     else
     # If user's login doesn't work, send them back to the login form.
+      puts "errors: #{user.errors.messages}"
+      flash[:notice] = "Error"
       redirect_to '/login'
     end
   end

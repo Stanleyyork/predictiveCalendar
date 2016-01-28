@@ -20,7 +20,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    Event.sync(current_user)
+    Event.delay.sync(current_user)
     redirect_to '/events'
   end
 end
