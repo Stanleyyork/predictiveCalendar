@@ -32,6 +32,9 @@ gem 'google-api-client', '~> 0.9', require: 'google/apis/calendar_v3'
 # Signet
 gem 'signet'
 
+# Delayed Job
+gem 'delayed_job_active_record'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

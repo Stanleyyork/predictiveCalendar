@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       # logged in when they navigate around our website.
       session[:user_id] = user.id
       puts "errors: #{user.errors}"
-      redirect_to '/'
+      redirect_to '/profile'
     else
     # If user's login doesn't work, send them back to the login form.
       redirect_to '/login'

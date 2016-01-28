@@ -1,0 +1,9 @@
+<% @events.each do |e| %>
+	<b><%= e.summary %></b><br>
+	<% e.attributes.each_pair do |name, value| %>
+		<% if !value.nil? %>
+		<li><%= "#{name}: #{value}" %></li>
+		<% end %>
+	<% end %>
+	<br><br>
+<% end %>

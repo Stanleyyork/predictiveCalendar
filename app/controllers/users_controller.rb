@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   require 'signet/oauth_2/client'
   OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
-
+  before_filter :authorize, :only => [:show, :redirect, :callback, :edit, :update, :destroy]
 
   def redirect
     client = Signet::OAuth2::Client.new({
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @events = Calendar.calCall.list_events('primary')
+    
   end
 
   def create

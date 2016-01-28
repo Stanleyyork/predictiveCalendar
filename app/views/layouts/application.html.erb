@@ -16,9 +16,12 @@
 			    </a>
 			</div>
 			<div class="col-xs-6 navbar-right">
-				<p class="navbar-text navbar-right"><a href="/profile" class="navbar-link">Profile</a></p>
+				<p class="navbar-text navbar-right">
+					<a href="/profile" class="navbar-link"><%= current_user.nil? ? "Profile" : current_user.name %></a>
+				</p>
 				<p class="navbar-text navbar-right"><a href="/events" class="navbar-link">Events</a></p>
 				<p class="navbar-text navbar-right"><a href="/settings" class="navbar-link">Settings</a></p>
+				<p class="navbar-text navbar-right"><a href="/logout" class="navbar-link">Logout</a></p>
 			</div>
 		</div> 
   </div>

@@ -8,12 +8,14 @@ class CalendarClass
   def initial_save(user)
     @user = user
     token = Calendar.where(user_id: @user.id).last.code
+    last_cal = Calendar.where(user_id: @user.id).last
     client = Signet::OAuth2::Client.new(access_token: token)
     service = Google::Apis::CalendarV3::CalendarService.new
     service.authorization = client
     service.list_events('primary').items.each do |e|
       event_attributes = {
         user_id: user.id,
+        calendar_id: last_cal.id,
         attachments: e.attachments,
         anyone_can_add_self: e.anyone_can_add_self,
         created: e.created,
@@ -45,8 +47,6 @@ class CalendarClass
         e.attendees.each do |a|
           a = Attendee.new(a.to_h)
           a.event_id = e.id
-          puts a
-          puts "==="
           a.save
         end
       end
