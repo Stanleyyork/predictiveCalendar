@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160128225605) do
+ActiveRecord::Schema.define(version: 20160129030040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20160128225605) do
     t.datetime "updated_at",        null: false
     t.integer  "event_id"
     t.integer  "round"
+    t.integer  "user_id"
   end
 
   create_table "calendars", force: :cascade do |t|
@@ -75,7 +76,7 @@ ActiveRecord::Schema.define(version: 20160128225605) do
     t.string   "organizer"
     t.datetime "original_start_time"
     t.boolean  "recurrence"
-    t.integer  "recurring_event_id"
+    t.string   "recurring_event_id"
     t.string   "reminders"
     t.datetime "start"
     t.string   "status"
@@ -93,6 +94,7 @@ ActiveRecord::Schema.define(version: 20160128225605) do
     t.integer  "rating"
     t.boolean  "syncd_and_changed"
     t.integer  "round"
+    t.string   "recurrence_value"
   end
 
   create_table "users", force: :cascade do |t|

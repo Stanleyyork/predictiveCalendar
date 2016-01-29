@@ -1,3 +1,21 @@
-Name: <%= @user.name %><br>
-Email: <%= @user.email %><br>
-Events: <%= @events.count %><br>
+<b>Name:</b> <%= @user.name %><br>
+<b>Email:</b> <%= @user.email %><br>
+<b>Total Events:</b> <%= @events_count %><br>
+<b>2014 Events:</b> <%= @events_count_2014 %><br>
+<b>2015 Events:</b> <%= @events_count_2015 %><br>
+<b>2016 Events:</b> <%= @events_count_2016 %><br>
+<b>Recurring Events:</b> <%= @events_count_recurrence %><br>
+<b>Cancelled Events:</b> <%= @events_count_cancelled %><br>
+<b>Top Collaborators:</b><br>
+<% @top_10_attendees.each do |k,v| %>
+	<li><%= "#{k}: #{v}" %></li>
+<% end %><br>
+<b><%= "Time of Day (0 = Midnight):" %></b><br>
+<% @events_hourly.each do |k,v| %>
+   <%= "#{k}: #{v}" %><br>
+<% end %>
+<br>
+<b><%= "Day of Week (0 = Sun):" %></b><br>
+<% @events_week_day.each do |k,v| %>
+   <%= "#{k}: #{v}" %><br>
+<% end %>

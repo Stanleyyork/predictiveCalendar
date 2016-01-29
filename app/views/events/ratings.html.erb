@@ -1,0 +1,6 @@
+<% @events.each do |e| %>
+	Summary: <%= e.summary.nil? ? "n/a" : e.summary %>
+	<%=" (start: #{e.start.nil? ? e.original_start_time : e.start})" %>
+	<%= link_to "link", e.html_link %>
+	<br>
+<% end %>

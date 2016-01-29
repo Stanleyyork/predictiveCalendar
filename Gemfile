@@ -32,8 +32,14 @@ gem 'google-api-client', '~> 0.9', require: 'google/apis/calendar_v3'
 # Signet
 gem 'signet'
 
+# Group records by temporal data
+gem 'groupdate'
+
 # Delayed Job
 gem 'delayed_job_active_record'
+
+# Charts
+gem "google_visualr", ">= 2.5"
 
 # Use Unicorn as the app server
 # gem 'unicorn'

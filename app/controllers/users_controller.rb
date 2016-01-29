@@ -40,7 +40,15 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
-    @events = Event.where(user_id: current_user.id)
+    @events_count = Event.where(user_id: current_user.id).count
+    @events_count_cancelled = Event.where(user_id: current_user.id).where(status: 'cancelled').count
+    @events_count_2014 = Event.where(user_id: current_user.id).where("status != ?", 'canclled').where('extract(year  from start) = ?', 2014).count
+    @events_count_2015 = Event.where(user_id: current_user.id).where("status != ?", 'canclled').where('extract(year  from start) = ?', 2015).count
+    @events_count_2016 = Event.where(user_id: current_user.id).where("status != ?", 'canclled').where('extract(year  from start) = ?', 2016).count
+    @events_count_recurrence = Event.where(user_id: current_user.id).where("status != ?", 'canclled').where(recurrence: true).count
+    @top_10_attendees = Attendee.where(user_id: current_user.id).group(:email).order('count_id desc').limit(10).count(:id)
+    @events_hourly = Event.where(user_id: current_user.id).where("status != ?", 'canclled').group_by_hour_of_day(:start, time_zone: "Pacific Time (US & Canada)").count
+    @events_week_day = Event.where(user_id: current_user.id).where("status != ?", 'canclled').group_by_day_of_week(:start, time_zone: "Pacific Time (US & Canada)").count
   end
 
   def new

@@ -11,5 +11,6 @@ Rails.application.routes.draw do
   get '/events/create' => 'events#create'
   get '/events' => 'events#index'
   get '/profile' => 'users#show'
+  get '/ratings' => 'events#ratings'
 
 end

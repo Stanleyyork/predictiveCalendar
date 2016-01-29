@@ -39,7 +39,7 @@ class CalendarClass
     end
 
     if(events_array.next_page_token)
-      initial_save(user, events_array.next_page_token)
+      sync(user, events_array.next_page_token)
     else
       last_cal.next_sync_token = events_array.next_sync_token
       last_cal.save
@@ -48,6 +48,9 @@ class CalendarClass
 
   def parseAndSave(events_array, user, last_cal)
     events_array.items.each do |e|
+      puts e.id
+      puts e.to_h
+      puts "==="
       existEvent = Event.find_by_gcal_event_id(e.id)
       event_attributes = {
         user_id: user.id,
@@ -70,7 +73,8 @@ class CalendarClass
         organizer_email: e.organizer.try(:email),
         organizer_self: e.organizer.try(:self),
         original_start_time: e.original_start_time.try(:date_time),
-        recurrence: e.recurrence,
+        recurrence: e.try(:recurrence).nil? ? false : true,
+        recurrence_value: e.try(:recurrence).nil? ? nil : e.recurrence[0],
         recurring_event_id: e.recurring_event_id,
         reminders: e.reminders.hash.to_s,
         start: e.start.try(:date_time),
@@ -79,8 +83,11 @@ class CalendarClass
         updated: e.updated,
         visibility: e.visibility
       }
-
-      event = Event.new()
+      if existEvent.nil?
+        event = Event.new()
+      else
+        event = existEvent
+      end
       event.update_attributes(event_attributes)
       event.save
       if !e.attendees.nil?
@@ -88,6 +95,7 @@ class CalendarClass
           a = Attendee.new(a.to_h)
           a.round = existEvent.nil? ? 1 : existEvent.round + 1
           a.event_id = e.id
+          a.user_id = user.id
           a.save
         end
       end
