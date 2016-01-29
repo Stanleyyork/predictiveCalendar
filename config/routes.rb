@@ -12,5 +12,6 @@ Rails.application.routes.draw do
   get '/events' => 'events#index'
   get '/profile' => 'users#show'
   get '/ratings' => 'events#ratings'
+  post '/setratings' => 'events#update_ratings'
 
 end

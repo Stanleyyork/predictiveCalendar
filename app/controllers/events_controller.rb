@@ -20,6 +20,17 @@ class EventsController < ApplicationController
     @events = Event.where(user_id: current_user.id).where("status != ?", 'cancelled').where("summary NOT LIKE ?", "%OOO").where("summary NOT LIKE ?", "%DNS").order('start desc')
   end
 
+  def update_ratings
+    ratings_hash = params[:ratings]
+    ratings_hash.each do |r|
+      e = Event.find_by_gcal_event_id(r[1][0])
+      e.rating = r[1][1]
+      e.save
+    end
+    flash[:notice] = "Ratings Saved!"
+    redirect_to '/ratings'
+  end
+
   def update
     
   end
