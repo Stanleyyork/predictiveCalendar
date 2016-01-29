@@ -91,6 +91,8 @@ class CalendarClass
       event.update_attributes(event_attributes)
       event.save
       if !e.attendees.nil?
+        event.attendee_count = e.attendees.count
+        event.save
         e.attendees.each do |a|
           a = Attendee.new(a.to_h)
           a.round = existEvent.nil? ? 1 : existEvent.round + 1

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160129060932) do
+ActiveRecord::Schema.define(version: 20160129202907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20160129060932) do
     t.boolean  "syncd_and_changed"
     t.integer  "round"
     t.string   "recurrence_value"
+    t.integer  "attendee_count"
   end
 
   create_table "users", force: :cascade do |t|

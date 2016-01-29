@@ -13,7 +13,7 @@ class GoogleChart
     )
     opts_ratings   = { 
       :width => 1000, :height => 600,
-      title: "Rating vs. #{attribute} comparison",
+      title: "Rating vs. #{attribute} Comparison",
       hAxis: {title: "#{attribute}", minValue: 0, maxValue: 23},
       vAxis: {title: 'Rating', minValue: 1, maxValue: 5},
       legend: 'none'
