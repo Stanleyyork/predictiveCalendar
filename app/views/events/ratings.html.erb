@@ -1,16 +1,24 @@
 <form id="ratings-form">
-	<button value="Submit" class="btn btn-primary" id="ratings-submit">Submit</button><br>
+	<button value="Submit" class="btn btn-primary" id="ratings-submit">Submit</button><br><br>
 	<% @events.each do |e| %>
-		<div class="radio-buttons" id="<%= e.gcal_event_id %>">
-			<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="1"> 1</label>
-			<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="2"> 2</label>
-			<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="3"> 3</label>
-			<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="4"> 4</label>
-			<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="5"> 5</label>
+		<div class="row">
+			<div class="col-xs-2">
+				<div class="radio-buttons" id="<%= e.gcal_event_id %>">
+					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="1"> 1</label>
+					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="2"> 2</label>
+					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="3"> 3</label>
+					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="4"> 4</label>
+					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="5"> 5</label>
+				</div>
+			</div>
+			<div class="col-xs-4">
+				Summary: <%= e.summary.nil? ? "n/a" : e.summary %>
+				<%=" (start: #{e.start.nil? ? e.original_start_time : e.start})" %>
+				<%= link_to "Cal", e.html_link %>
+				<%= " / " %>
+				<%= link_to "Event", "/events/#{e.id}" %>
+			</div>
 		</div>
-		Summary: <%= e.summary.nil? ? "n/a" : e.summary %>
-		<%=" (start: #{e.start.nil? ? e.original_start_time : e.start})" %>
-		<%= link_to "link", e.html_link %>
 		<br>
 	<% end %>
 </form>

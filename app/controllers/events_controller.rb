@@ -6,6 +6,11 @@ class EventsController < ApplicationController
   def new
   end
 
+  def show
+    @event = Event.find(params[:id])
+    @attendees = Attendee.where(gcal_event_id: @event.gcal_event_id)
+  end
+
   def index
     @events = Event.where(user_id: current_user.id)
     @events_count_cancelled = Event.where(user_id: current_user.id).where(status: 'cancelled').count

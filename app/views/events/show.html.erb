@@ -1,0 +1,16 @@
+organizer_name: <%= @event.organizer_name  %><br>
+organizer_email: <%= @event.organizer_email  %><br>
+organizer: <%= @event.organizer  %><br>
+creator: <%= @event.creator  %><br>
+visibility: <%= @event.visibility  %><br>
+status: <%= @event.status  %><br>
+summary: <%= @event.summary  %><br>
+recurrence: <%= @event.recurrence  %><br>
+original_start_time: <%= @event.original_start_time  %><br>
+start: <%= @event.start  %><br>
+end: <%= @event.end  %><br>
+location: <%= @event.location  %><br>
+rating: <%= @event.rating  %><br>
+attendees:<% @attendees.each do |a|  %><br>
+	<%= a %><br>
+<% end %>
