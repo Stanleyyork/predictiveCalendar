@@ -18,13 +18,18 @@
 			    </a>
 			</div>
 			<div class="col-xs-6 navbar-right">
+				<% if current_user %>
 				<p class="navbar-text navbar-right">
 					<a href="/profile" class="navbar-link"><%= current_user.nil? ? "Profile" : current_user.name %></a>
 				</p>
-				<p class="navbar-text navbar-right"><a href="/events" class="navbar-link">Events</a></p>
+				<p class="navbar-text navbar-right"><a href="/analyze" class="navbar-link">Analyze</a></p>
 				<p class="navbar-text navbar-right"><a href="/settings" class="navbar-link">Settings</a></p>
 				<p class="navbar-text navbar-right"><a href="/ratings" class="navbar-link">Ratings</a></p>
 				<p class="navbar-text navbar-right"><a href="/logout" class="navbar-link">Logout</a></p>
+				<% else %>
+					<p class="navbar-text navbar-right"><a href="/login" class="navbar-link">Login</a></p>
+				<p class="navbar-text navbar-right"><a href="/signup" class="navbar-link">Register</a></p>
+				<% end %>
 			</div>
 		</div> 
   </div>

@@ -12,12 +12,15 @@ class EventsController < ApplicationController
   end
 
   def index
+  end
+
+  def analyze
     @events = Event.where(user_id: current_user.id)
     events_ratings_hourly_array = Event.where(user_id: current_user.id).where.not(status: 'cancelled').where.not(rating: nil).where.not(start: nil).map{|e|[e.start.in_time_zone("Pacific Time (US & Canada)").hour, e.rating]}.group_by{|e|e}.map{|k,v|[" ",k[0],k[1],v.count]}
-    @events_ratings_hourly = GoogleChart.new.scatterRatingsChart(events_ratings_hourly_array, "Hour of Day")
+    @events_ratings_hourly = GoogleChart.new.scatterRatingsChart(events_ratings_hourly_array, "Hour of Day", 0, 23)
 
     events_ratings_attendees_array = Event.where(user_id: current_user.id).where.not(status: 'cancelled').where.not(rating: nil).where.not(start: nil).map{|e|[e.attendee_count, e.rating]}.group_by{|e|e}.map{|k,v|[" ",k[0],k[1],v.count]}
-    @events_ratings_attendees = GoogleChart.new.scatterRatingsChart(events_ratings_attendees_array, "No. of Attendees")
+    @events_ratings_attendees = GoogleChart.new.scatterRatingsChart(events_ratings_attendees_array, "No. of Attendees", 0, 100)
   end
 
   def ratings

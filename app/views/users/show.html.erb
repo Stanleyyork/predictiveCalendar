@@ -1,18 +1,29 @@
-<b>Name:</b> <%= @user.name %><br>
-<b>Email:</b> <%= @user.email %><br>
-<b>Total Events:</b> <%= @events_count %><br>
-<b>2014 Events:</b> <%= @events_count_2014 %><br>
-<b>2015 Events:</b> <%= @events_count_2015 %><br>
-<b>2016 Events:</b> <%= @events_count_2016 %><br>
-<b>Recurring Events:</b> <%= @events_count_recurrence %><br>
-<b>Cancelled Events:</b> <%= @events_count_cancelled %><br>
-<b>Top Collaborators:</b><br>
-<% @top_10_attendees.each do |k,v| %>
-	<li><%= "#{k}: #{v}" %></li>
-<% end %><br>
-
-<div id='chart_hourly'></div>
-<%= render_chart(@events_hourly, 'chart_hourly') %>
-<br>
-<div id='chart_cancelled'></div>
-<%= render_chart(@cancelled_percentage, 'chart_cancelled') %>
+<div class="row">
+	<div class="col-sm-4">
+		<b>Name:</b> <%= @user.name %><br>
+		<b>Email:</b> <%= @user.email %><br>
+		<b>Total Events:</b> <%= @events_count %><br>
+		<b>2014 Events:</b> <%= @events_count_2014 %><br>
+		<b>2015 Events:</b> <%= @events_count_2015 %><br>
+		<b>2016 Events:</b> <%= @events_count_2016 %><br>
+		<b>Recurring Events:</b> <%= @events_count_recurrence %><br>
+		<b>Cancelled Events:</b> <%= @events_count_cancelled %><br>
+	</div>
+	<div class="col-sm-4">
+		<div id='chart_cancelled'></div>
+		<%= render_chart(@cancelled_percentage, 'chart_cancelled') %>
+	</div>
+	<div class="col-sm-4">
+		<b>Top Collaborators:</b><br>
+		<% @top_10_attendees.each do |k,v| %>
+			<li><%= "#{k}: #{v}" %></li>
+		<% end %><br>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<div id='chart_hourly'></div>
+		<%= render_chart(@events_hourly, 'chart_hourly') %>
+		<br>
+	</div>
+</div>

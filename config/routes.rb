@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/oauth2callback' => 'users#callback'
   get '/events/create' => 'events#create'
   get '/events' => 'events#index'
+  get '/analyze' => 'events#analyze'
   get '/events/:id' => 'events#show'
   get '/profile' => 'users#show'
   get '/ratings' => 'events#ratings'
