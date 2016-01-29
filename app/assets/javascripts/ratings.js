@@ -30,6 +30,7 @@ $(function() {
 			success: function (data) {
 				console.log("Sent");
 				console.log(data);
+				location.reload();
 		    },
 		    error: function (error) {
 		      console.log("Error: ");

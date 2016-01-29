@@ -1,5 +1,18 @@
+Events Rated: <%= @events_rated %>
 <form id="ratings-form">
 	<button value="Submit" class="btn btn-primary" id="ratings-submit">Submit</button><br><br>
+	<div class="row">
+			<div class="col-xs-2">
+				<b>Ratings</b>
+			</div>
+			<div class="col-xs-2">
+				<b>Current Rating</b>
+			</div>
+			<div class="col-xs-4">
+				<b>Event</b>
+			</div>
+		</div>
+		<br>
 	<% @events.each do |e| %>
 		<div class="row">
 			<div class="col-xs-2">
@@ -10,6 +23,9 @@
 					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="4"> 4</label>
 					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="5"> 5</label>
 				</div>
+			</div>
+			<div class="col-xs-2">
+				<%= e.rating %>
 			</div>
 			<div class="col-xs-4">
 				Summary: <%= e.summary.nil? ? "n/a" : e.summary %>

@@ -1,5 +1,26 @@
 class GoogleChart
 
+  def scatterRatingsChart(ratings_array, attribute)
+    data_table_ratings = GoogleVisualr::DataTable.new
+    data_table_ratings.new_column('string', 'ID')
+    data_table_ratings.new_column('number', "#{attribute}")
+    data_table_ratings.new_column('number', 'Rating')
+    data_table_ratings.new_column('number', 'Count')
+    data_table_ratings.add_rows(
+      ratings_array.each do |x|
+        [x[0],x[1],x[2],x[3]]
+      end
+    )
+    opts_ratings   = { 
+      :width => 1000, :height => 600,
+      title: "Rating vs. #{attribute} comparison",
+      hAxis: {title: "#{attribute}", minValue: 0, maxValue: 23},
+      vAxis: {title: 'Rating', minValue: 1, maxValue: 5},
+      legend: 'none'
+     }
+    return GoogleVisualr::Interactive::BubbleChart.new(data_table_ratings, opts_ratings)
+  end
+
   def cancelledPieChart(events_count_cancelled, events_count)
     cancelled_pie_chart = Array.new
     cancelled_pie_chart << ['Cancelled', events_count_cancelled]

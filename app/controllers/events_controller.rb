@@ -13,15 +13,12 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.where(user_id: current_user.id)
-    @events_count_cancelled = Event.where(user_id: current_user.id).where(status: 'cancelled').count
-    @events_hourly = Event.where(user_id: current_user.id).where("status != ?", 'cancelled').group_by_hour_of_day(:start, time_zone: "Pacific Time (US & Canada)").count
-    @events_week_day = Event.where(user_id: current_user.id).where("status != ?", 'cancelled').group_by_day_of_week(:start, time_zone: "Pacific Time (US & Canada)").count
-    @events_hourly_array = @events_hourly.map{|k,v| k < 12 ? ["#{k}am",v] : ["#{k}pm",v]}
-    @events_hourly = GoogleChart.new.eventsHourly(@events_hourly_array)
-    @cancelled_percentage = GoogleChart.new.cancelledPieChart(@events_count_cancelled, @events.count)
+    events_ratings_hourly_array = Event.where(user_id: current_user.id).where("status != ?", 'cancelled').where.not(rating: nil).where.not(start: nil).map{|e|[e.start.in_time_zone("Pacific Time (US & Canada)").hour, e.rating]}.group_by{|e|e}.map{|k,v|[" ",k[0],k[1],v.count]}
+    @events_ratings_hourly = GoogleChart.new.scatterRatingsChart(events_ratings_hourly_array, "Hour of Day")
   end
 
   def ratings
+    @events_rated = Event.where(user_id: current_user.id).where.not(rating: nil).count
     @events = Event.where(user_id: current_user.id).where("status != ?", 'cancelled').where("summary NOT LIKE ?", "%OOO").where("summary NOT LIKE ?", "%DNS").order('start desc')
   end
 
@@ -32,8 +29,7 @@ class EventsController < ApplicationController
       e.rating = r[1][1]
       e.save
     end
-    flash[:notice] = "Ratings Saved!"
-    redirect_to '/ratings'
+    render :json => { :Success => ratings_hash }
   end
 
   def update
