@@ -30,7 +30,7 @@ class EventsController < ApplicationController
 
   def ratings
     @events_rated = Event.where(user_id: current_user.id).where.not(rating: nil).count
-    @events = Event.where(user_id: current_user.id).where("status != ?", 'cancelled').where("summary NOT LIKE ?", "%OOO").where("summary NOT LIKE ?", "%DNS").order('start desc')
+    @events = Event.where(user_id: current_user.id).where.not(start: nil).where("start < ?", DateTime.now).where.not(attendee_count: 1).where.not(summary: "%DNS").where.not(summary: "%OOO").order('start desc')
   end
 
   def update_ratings
