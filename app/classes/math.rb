@@ -1,6 +1,6 @@
 class SimpsonMathClass
 
-	def create(current_user, attributeA, attributeB)
+	def linearRegression(current_user, attributeA, attributeB)
 		return query(current_user, attributeA, attributeB)
 	end
 
@@ -10,8 +10,10 @@ class SimpsonMathClass
 			sumX = Event.where(user_id: current_user.id).where.not(status: 'cancelled').where.not(rating: nil).where.not(start: nil).sum(attributeA)
 	    elsif Event.columns_hash["#{test_attr}"].type == :datetime
 			sumX = Event.where(user_id: current_user.id).where.not(status: 'cancelled').where.not(rating: nil).where.not(start: nil).map{|e|e.start.hour}.sum
+	    elsif Event.columns_hash["#{test_attr}"].type == :boolean
+	    	sumX = Event.where(user_id: current_user.id).where.not(status: 'cancelled').where.not(rating: nil).where.not(start: nil).where("#{attributeA} = ?", true).count
 	    else
-	    	return "attributeA needs to be integer or datetime"
+	    	reutrn "not correct data type"
 	    end
 	    sumX2 = sumX*sumX
 	    sumY = Event.where(user_id: current_user.id).where.not(status: 'cancelled').where.not(rating: nil).where.not(start: nil).sum(attributeB)

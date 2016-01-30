@@ -3,6 +3,7 @@ class EventsController < ApplicationController
   before_filter :authorize
   require './app/classes/charts'
   require './app/classes/math'
+  require './app/classes/chartArray'
   
   def new
   end
@@ -15,17 +16,17 @@ class EventsController < ApplicationController
   def index
   end
 
-  
-
   def analyze
     @events = Event.where(user_id: current_user.id)
-    @linear_regress_attendee_rating = SimpsonMathClass.new.create(current_user, :attendee_count, :rating)
-    @linear_regress_hourly_rating = SimpsonMathClass.new.create(current_user, :start, :rating)
-    events_ratings_hourly_array = Event.where(user_id: current_user.id).where.not(status: 'cancelled').where.not(rating: nil).where.not(start: nil).map{|e|[e.start.in_time_zone("Pacific Time (US & Canada)").hour, e.rating]}.group_by{|e|e}.map{|k,v|[" ",k[0],k[1],v.count]}
+    @linear_regress_attendee_rating = SimpsonMathClass.new.linearRegression(current_user, :attendee_count, :rating)
+    @linear_regress_hourly_rating = SimpsonMathClass.new.linearRegression(current_user, :start, :rating)
+    @linear_regress_recurrence_rating = SimpsonMathClass.new.linearRegression(current_user, :recurrence, :rating)
+    events_ratings_hourly_array = ChartArray.new.dateTimeHourArray(:start, current_user)
+    events_ratings_attendees_array = ChartArray.new.numberArray(:attendee_count, current_user)
+    events_ratings_recurrence_array = ChartArray.new.categoricalArray(:recurrence, current_user)
     @events_ratings_hourly = GoogleChart.new.scatterRatingsChart(events_ratings_hourly_array, "Hour of Day", 0, 23, "Ratings vs. Hour of Day Comparison (#{@linear_regress_hourly_rating[:line]})")
-    events_ratings_attendees_array = Event.where(user_id: current_user.id).where.not(status: 'cancelled').where.not(rating: nil).where.not(start: nil).map{|e|[e.attendee_count, e.rating]}.group_by{|e|e}.map{|k,v|[" ",k[0],k[1],v.count]}
     @events_ratings_attendees = GoogleChart.new.scatterRatingsChart(events_ratings_attendees_array, "No. of Attendees", 0, 100, "Ratings vs. No. of Attendees (#{@linear_regress_attendee_rating[:line]})")
-
+    @events_ratings_recurrence = GoogleChart.new.scatterRatingsChart(events_ratings_recurrence_array, "Recurring Meeting (0 = No)", 0, 1, "Ratings vs. Recurring meeting (#{@linear_regress_recurrence_rating[:line]})")
   end
 
   def ratings
