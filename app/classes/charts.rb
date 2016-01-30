@@ -1,6 +1,6 @@
 class GoogleChart
 
-  def scatterRatingsChart(ratings_array, attribute, min, max)
+  def scatterRatingsChart(ratings_array, attribute, min, max, title)
     data_table_ratings = GoogleVisualr::DataTable.new
     data_table_ratings.new_column('string', 'ID')
     data_table_ratings.new_column('number', "#{attribute}")
@@ -13,7 +13,7 @@ class GoogleChart
     )
     opts_ratings   = { 
       :width => 1100, :height => 600,
-      title: "Rating vs. #{attribute} Comparison",
+      title: "#{title}",
       hAxis: {title: "#{attribute}", minValue: min, maxValue: max},
       vAxis: {title: 'Rating', minValue: 1, maxValue: 5},
       legend: 'none'
