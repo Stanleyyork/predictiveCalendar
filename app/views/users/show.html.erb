@@ -2,32 +2,42 @@
 	<%= "Private Profile" %>
 <% else %>
 	<div class="row">
-		<div class="col-sm-4">
-			<b>Name:</b> <%= @user.name %><br>
-			<b>Email:</b> <%= @user.email %><br>
-			<b>Total Events:</b> <%= @events_count %><br>
-			<b>2014 Events:</b> <%= @events_count_2014 %><br>
-			<b>2015 Events:</b> <%= @events_count_2015 %><br>
-			<b>2016 Events:</b> <%= @events_count_2016 %><br>
-			<b>Recurring Events:</b> <%= @events_count_recurrence %><br>
-			<b>Cancelled Events:</b> <%= @events_count_cancelled %><br>
-		</div>
-		<div class="col-sm-4">
-			<div id='chart_cancelled'></div>
-			<%= render_chart(@cancelled_percentage, 'chart_cancelled') %>
-		</div>
-		<div class="col-sm-4">
-			<b>Top Collaborators:</b><br>
-			<% @top_10_attendees.each do |k,v| %>
-				<li><%= "#{k}: #{v}" %></li>
-			<% end %><br>
+		<p id="profile-name"><%= @user.name %></p>
+		<p id="profile-summary"><%= "On an average weekday, you attend #{@average_day_events_count.round} meetings, mostly in the #{@events_morn_after}, collaborating with approximately #{@average_day_events_attendee_count.round} people." %></p>
+	</div>
+	<div class="row">
+		<div class="well beyond-edges">
+			<div class="col-sm-7 hidden-xs">
+				<div id='chart_hourly'></div>
+				<%= render_chart(@events_hourly, 'chart_hourly') %>
+			</div>
+			<div class="col-xs-3 hidden-sm hidden-md hidden-lg hidden-xl">
+				<div id='chart_hourly_small'></div>
+				<%= render_chart(@events_hourly_small, 'chart_hourly_small') %>
+			</div>
+			<div class="col-sm-1">
+			</div>
+			<div class="col-sm-2 hidden-xs">
+				<div id='chart_cancelled'></div>
+				<%= render_chart(@cancelled_percentage, 'chart_cancelled') %>
+			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-12">
-			<div id='chart_hourly'></div>
-			<%= render_chart(@events_hourly, 'chart_hourly') %>
-			<br>
+		<div class="hidden-sm hidden-xs">
+			<div id='chart_top_collabs'></div>
+			<%= render_chart(@events_collabs_sankey, 'chart_top_collabs') %>
 		</div>
+		<div class="hidden-lg hidden-md hidden-xs">
+			<div id='chart_top_collabs_med'></div>
+			<%= render_chart(@events_collabs_sankey_med, 'chart_top_collabs_med') %>
+		</div>
+		<div class="hidden-lg hidden-md hidden-sm">
+			<div id='chart_top_collabs_small'></div>
+			<%= render_chart(@events_collabs_sankey_small, 'chart_top_collabs_small') %>
+		</div>
+	</div>
+	<div class="row">
+		
 	</div>
 <% end %>

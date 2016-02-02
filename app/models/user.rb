@@ -10,4 +10,10 @@ class User < ActiveRecord::Base
 	validates_presence_of :username, :notice => "Please include username"
 	validates_uniqueness_of :username, :notice => "Username already taken"
 
+	attr_writer :smart_query_set
+
+	def smart_query_set
+		@smart_query = true
+	end
+
 end

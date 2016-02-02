@@ -9,18 +9,33 @@ class UsersController < ApplicationController
   def show
     if params[:username] == 'profile' || !User.find_by_username(params[:username]).nil?
       @user = User.find_by_username(params[:username]) || current_user
-      @events_count = Event.where(user_id: @user.id).count
-      @events_count_2014 = Event.where(user_id: @user.id).where("status != ?", 'canclled').where('extract(year  from start) = ?', 2014).count
-      @events_count_2015 = Event.where(user_id: @user.id).where("status != ?", 'canclled').where('extract(year  from start) = ?', 2015).count
-      @events_count_2016 = Event.where(user_id: @user.id).where("status != ?", 'canclled').where('extract(year  from start) = ?', 2016).count
-      @events_count_recurrence = Event.where(user_id: @user.id).where("status != ?", 'canclled').where(recurrence: true).count
-      @top_10_attendees = Attendee.where(user_id: @user.id).group(:email).order('count_id desc').limit(10).count(:id)
+      if @user.smart_query == true
+        @events = Event.where(user_id: @user.id).where.not(status: 'cancelled').where.not("summary like ?", "%DNS%").where.not("summary like ?", "%OOO")
+      else
+        @events = Event.where(user_id: @user.id)
+      end
+      @events_count = @events.count
+      @average_day_events_count = @events_count.to_f / ((Time.zone.now - @events.order(:start).first.start)/(3600*24))
+      @average_day_events_attendee_count = ((@events.pluck(:attendee_count).sum / @events.pluck(:attendee_count).count.to_f)-1) * @average_day_events_count
+      @events_count_2014 = @events.where('extract(year  from start) = ?', 2014).count
+      @events_count_2015 = @events.where('extract(year  from start) = ?', 2015).count
+      @events_count_2016 = @events.where('extract(year  from start) = ?', 2016).count
+      @events_count_recurrence = @events.where(recurrence: true).count
+      @top_25_attendees = Attendee.where(user_id: @user.id).where.not("email like ?", "%resource.calendar.google.com%").group(:email).order('count_id desc').limit(25).count(:id)
+      events_collabs_array = @top_25_attendees.map{|k,v| ["#{@user.name}", k.split("@").first, v]}
       @events_count_cancelled = Event.where(user_id: @user.id).where(status: 'cancelled').count
-      @events_hourly = Event.where(user_id: @user.id).where("status != ?", 'cancelled').group_by_hour_of_day(:start, time_zone: "Pacific Time (US & Canada)").count
-      @events_week_day = Event.where(user_id: @user.id).where("status != ?", 'cancelled').group_by_day_of_week(:start, time_zone: "Pacific Time (US & Canada)").count
-      @events_hourly_array = @events_hourly.map{|k,v| k < 12 ? ["#{k}am",v] : ["#{k}pm",v]}
-      @events_hourly = GoogleChart.new.eventsHourly(@events_hourly_array)
+      @events_hourly_grouped = @events.group_by_hour_of_day(:start, time_zone: "Pacific Time (US & Canada)").count
+      @events_week_day = @events.group_by_day_of_week(:start, time_zone: "Pacific Time (US & Canada)").count
+      @events_morning = @events_hourly_grouped.map{|k,v| k < 12 ? v : 0}
+      @events_afternoon = @events_hourly_grouped.map{|k,v| k < 12 ? 0 : v}
+      @events_morn_after = @events_morning.sum > @events_afternoon.sum ? "morning" : "afternoon"
+      @events_hourly_array = @events_hourly_grouped.map{|k,v| k < 12 ? ["#{k}am",v] : ["#{k}pm",v]}
+      @events_hourly = GoogleChart.new.eventsHourly(@events_hourly_array.map{|k,v| v != 0 ? [k,v] : []}, 1000)
       @cancelled_percentage = GoogleChart.new.cancelledPieChart(@events_count_cancelled, @events_count)
+      @events_hourly_small = GoogleChart.new.eventsHourly(@events_hourly_array.map{|k,v| v != 0 ? [k,v] : []}, 650)
+      @events_collabs_sankey = GoogleChart.new.sankey(events_collabs_array[1..-1])
+      @events_collabs_sankey_med = GoogleChart.new.sankey(events_collabs_array[1..15],400,650)
+      @events_collabs_sankey_small = GoogleChart.new.sankey(events_collabs_array[1..10],300,375)
     else
       redirect_to '/profile'
     end
@@ -54,7 +69,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(current_user.id)
-    user_params = params.require(:user).permit(:name,:email,:private_profile)
+    user_params = params.require(:user).permit(:name,:email,:private_profile,:smart_query)
     if @user.update_attributes(user_params)
       flash[:notice] = "Updated!"
       redirect_to "/settings"

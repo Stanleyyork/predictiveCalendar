@@ -32,8 +32,7 @@
 					<p class="navbar-text navbar-right"><a href="/ratings" class="navbar-link">Ratings</a></p>
 					<p class="navbar-text navbar-right"><a href="/settings" class="navbar-link">Settings</a></p>
 					<% if Event.where(user_id: current_user.id).where.not(rating: nil).count > 0 %>
-					<p class="navbar-text navbar-right"><a href="/analyze" class="navbar-link">Analyze</a></p>
-					<p class="navbar-text navbar-right"><a href="/logreg" class="navbar-link">LogReg</a></p>
+						<p class="navbar-text navbar-right"><a href="/analyze" class="navbar-link">Analyze</a></p>
 					<% end %>
 					<p class="navbar-text navbar-right"><a href="/logout" class="navbar-link">Logout</a></p>
 					<% else %>

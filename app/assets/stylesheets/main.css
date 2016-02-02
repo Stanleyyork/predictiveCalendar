@@ -25,6 +25,44 @@ body {
 	margin-right: -50px
 }
 
+.well.beyond-edges {
+	margin-left: -15px;
+	margin-right: -15px;
+	height: 225px;
+}
+
+#profile-name {
+	font-size: 25px;
+	font-weight: bold;
+	margin-left: 20px;
+}
+
+#profile-summary {
+	margin-left: 20px;
+}
+
+#chart_hourly {
+	margin-left: -50px;
+}
+
 #green {
 	color: green;
+}
+
+@media all and (max-width: 1075px) {
+	#chart_hourly {
+		margin-left: -150px;
+	}
+}
+
+@media all and (max-width: 750px) {
+	#chart_hourly {
+		margin-left: -200px;
+	}
+}
+
+@media all and (max-width: 500px) {
+	#chart_hourly_small {
+		margin-left: -110px;
+	}
 }

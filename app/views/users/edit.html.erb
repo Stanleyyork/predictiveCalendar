@@ -25,6 +25,12 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<div class="checkbox" data-toggle="tooltip" data-placement="top" title="i.e. don't query events labeled 'DNS', 'OOO', cancelled, etc.">			
+						<%= f.check_box :smart_query %>
+						<%= f.label :smart_query %>
+					</div>
+				</div>
+				<div class="form-group">
 					<%= f.submit "Submit", class: 'btn btn-default' %>
 				</div>
 			<% end %>
