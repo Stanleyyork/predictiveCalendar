@@ -16,3 +16,7 @@
 //= require bootstrap
 //= require ratings.js
 //= require_tree .
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+});

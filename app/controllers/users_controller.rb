@@ -4,22 +4,26 @@ class UsersController < ApplicationController
   require './app/classes/charts'
   OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
-  before_filter :authorize, :only => [:show, :redirect, :callback, :edit, :update, :destroy]
+  before_filter :authorize, :only => [:redirect, :callback, :edit, :update, :destroy]
 
   def show
-    @user = current_user
-    @events_count = Event.where(user_id: current_user.id).count
-    @events_count_2014 = Event.where(user_id: current_user.id).where("status != ?", 'canclled').where('extract(year  from start) = ?', 2014).count
-    @events_count_2015 = Event.where(user_id: current_user.id).where("status != ?", 'canclled').where('extract(year  from start) = ?', 2015).count
-    @events_count_2016 = Event.where(user_id: current_user.id).where("status != ?", 'canclled').where('extract(year  from start) = ?', 2016).count
-    @events_count_recurrence = Event.where(user_id: current_user.id).where("status != ?", 'canclled').where(recurrence: true).count
-    @top_10_attendees = Attendee.where(user_id: current_user.id).group(:email).order('count_id desc').limit(10).count(:id)
-    @events_count_cancelled = Event.where(user_id: current_user.id).where(status: 'cancelled').count
-    @events_hourly = Event.where(user_id: current_user.id).where("status != ?", 'cancelled').group_by_hour_of_day(:start, time_zone: "Pacific Time (US & Canada)").count
-    @events_week_day = Event.where(user_id: current_user.id).where("status != ?", 'cancelled').group_by_day_of_week(:start, time_zone: "Pacific Time (US & Canada)").count
-    @events_hourly_array = @events_hourly.map{|k,v| k < 12 ? ["#{k}am",v] : ["#{k}pm",v]}
-    @events_hourly = GoogleChart.new.eventsHourly(@events_hourly_array)
-    @cancelled_percentage = GoogleChart.new.cancelledPieChart(@events_count_cancelled, @events_count)
+    if params[:username] == 'profile' || !User.find_by_username(params[:username]).nil?
+      @user = User.find_by_username(params[:username]) || current_user
+      @events_count = Event.where(user_id: @user.id).count
+      @events_count_2014 = Event.where(user_id: @user.id).where("status != ?", 'canclled').where('extract(year  from start) = ?', 2014).count
+      @events_count_2015 = Event.where(user_id: @user.id).where("status != ?", 'canclled').where('extract(year  from start) = ?', 2015).count
+      @events_count_2016 = Event.where(user_id: @user.id).where("status != ?", 'canclled').where('extract(year  from start) = ?', 2016).count
+      @events_count_recurrence = Event.where(user_id: @user.id).where("status != ?", 'canclled').where(recurrence: true).count
+      @top_10_attendees = Attendee.where(user_id: @user.id).group(:email).order('count_id desc').limit(10).count(:id)
+      @events_count_cancelled = Event.where(user_id: @user.id).where(status: 'cancelled').count
+      @events_hourly = Event.where(user_id: @user.id).where("status != ?", 'cancelled').group_by_hour_of_day(:start, time_zone: "Pacific Time (US & Canada)").count
+      @events_week_day = Event.where(user_id: @user.id).where("status != ?", 'cancelled').group_by_day_of_week(:start, time_zone: "Pacific Time (US & Canada)").count
+      @events_hourly_array = @events_hourly.map{|k,v| k < 12 ? ["#{k}am",v] : ["#{k}pm",v]}
+      @events_hourly = GoogleChart.new.eventsHourly(@events_hourly_array)
+      @cancelled_percentage = GoogleChart.new.cancelledPieChart(@events_count_cancelled, @events_count)
+    else
+      redirect_to '/profile'
+    end
   end
 
   def new
@@ -50,13 +54,13 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(current_user.id)
-    user_params = params.require(:user).permit(:name,:email)
+    user_params = params.require(:user).permit(:name,:email,:private_profile)
     if @user.update_attributes(user_params)
       flash[:notice] = "Updated!"
-      redirect_to "/"
+      redirect_to "/settings"
     else 
       flash[:notice] = @user.errors.map{|k,v| "#{k} #{v}".capitalize}
-      redirect_to "/"
+      redirect_to "/settings"
     end
   end
 
@@ -100,7 +104,6 @@ class UsersController < ApplicationController
       c.code = response['access_token']
       c.save
     end
-    #session[:access_token] = response['access_token']
 
     redirect_to '/events/create'
   end

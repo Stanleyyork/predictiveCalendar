@@ -41,6 +41,10 @@ gem 'delayed_job_active_record'
 # Charts
 gem "google_visualr", ">= 2.5"
 
+# naive bayes
+gem 'classifier-reborn'
+gem 'fast-stemmer'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

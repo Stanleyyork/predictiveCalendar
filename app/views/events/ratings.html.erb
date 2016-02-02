@@ -1,4 +1,6 @@
-Events Rated: <%= @events_rated %>
+Events Rated: <%= @events_rated %><br>
+<p id="green">Green = <%= current_user.name %> organized</p>
+<p>Not showing meetings that were cancelled or had less than 2 attendees</p>
 <form id="ratings-form">
 	<button value="Submit" class="btn btn-primary" id="ratings-submit">Submit</button><br><br>
 	<div class="row">
@@ -24,12 +26,13 @@ Events Rated: <%= @events_rated %>
 					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="5"> 5</label>
 				</div>
 			</div>
-			<div class="col-xs-2">
+			<div class="col-xs-1">
 				<%= e.rating %>
 			</div>
-			<div class="col-xs-4">
-				Summary: <%= e.summary.nil? ? "n/a" : e.summary %>
-				<%=" (start: #{e.start.nil? ? e.original_start_time : e.start})" %>
+			<div class="col-xs-5 creator_self-<%=e.creator_self%>">
+				Summary: <%= e.summary.nil? ? "n/a" : e.summary %> / Attendees: <%= e.attendee_count %><br>
+				Creator: <%= e.creator %><br>
+				<%="Start: #{e.start.nil? ? e.original_start_time.in_time_zone("Pacific Time (US & Canada)").strftime("%A, %B %d, %Y at %l%p") : e.start.in_time_zone("Pacific Time (US & Canada)").strftime("%A, %B %d, %Y at %l%p")}" %>
 				<%= link_to "Cal", e.html_link %>
 				<%= " / " %>
 				<%= link_to "Event", "/events/#{e.id}" %>

@@ -14,11 +14,31 @@ class CalendarClass
 
   def sync(user, page_token='')
     @user = user
-    token = Calendar.where(user_id: @user.id).last.code
     last_cal = Calendar.where(user_id: @user.id).last
+    token = last_cal.code
     client = Signet::OAuth2::Client.new(access_token: token)
     service = Google::Apis::CalendarV3::CalendarService.new
     service.authorization = client
+    ## client.methods...
+    # authorization_uri: 
+    # token_credential_uri: 
+    # client_id: 
+    # client_secret: 
+    # code: 
+    # expires_at: 
+    # expires_in: 
+    # issued_at: 
+    # issuer: 
+    # password: 
+    # principal: 
+    # redirect_uri: 
+    # scope: 
+    # state: 
+    # username: 
+    # expiry: 60
+    # extension_parameters: {}
+    # additional_parameters: {}
+    # access_token: ya29.eAJzw-BdC_hVweU00t9Fo-Y7gSw7hrLjw6n-IteYdVunEocOUlk1fLA_utY0WqHZkSYktA
 
     if(last_cal.next_sync_token)
       puts "sync token"
@@ -105,147 +125,3 @@ class CalendarClass
   end
 
 end
-
-#
-#     t.integer  "user_id"
-#     t.integer  "attendees_id"
-#     t.boolean  "attachments"
-#     t.boolean  "anyone_can_add_self"
-#     t.datetime "created"
-#     t.string   "creator"
-#     t.string   "description"
-#     t.datetime "end"
-#     t.boolean  "guests_can_invite_others"
-#     t.boolean  "guests_can_see_other_guests"
-#     t.integer  "gcal_event_id"
-#     t.string   "location"
-#     t.string   "organizer"
-#     t.datetime "original_start_time"
-#     t.boolean  "recurrence"
-#     t.integer  "recurring_event_id"
-#     t.string   "reminders"
-#     t.datetime "start"
-#     t.string   "status"
-#     t.string   "summary"
-#     t.datetime "updated"
-#     t.string   "visibility"
-#     t.datetime "created_at",                  null: false
-#     t.datetime "updated_at",
-
-## to_h
-# attendees
-# attachments
-# anyone_can_add_self
-# created
-# creator
-# description
-# end
-# guests_can_invite_others
-# guests_can_see_other_guests
-# id
-# location
-# organizer
-# original_start_time
-# recurrence
-# recurring_event_id
-# reminders
-# start
-# status
-# summary
-# updated
-# visibility
-
-
-# anyone_can_add_self
-# anyone_can_add_self=
-# anyone_can_add_self?
-# attachments
-# attachments=
-# attendees
-# attendees=
-# attendees_omitted
-# attendees_omitted=
-# attendees_omitted?
-# color_id
-# color_id=
-# created
-# created=
-# creator
-# creator=
-# description
-# description=
-# end
-# end=
-# end_time_unspecified
-# end_time_unspecified=
-# end_time_unspecified?
-# etag
-# etag=
-# extended_properties
-# extended_properties=
-# gadget
-# gadget=
-# guests_can_invite_others
-# guests_can_invite_others=
-# guests_can_invite_others?
-# guests_can_modify
-# guests_can_modify=
-# guests_can_modify?
-# guests_can_see_other_guests
-# guests_can_see_other_guests=
-# guests_can_see_other_guests?
-# hangout_link
-# hangout_link=
-# html_link
-# html_link=
-# i_cal_uid
-# i_cal_uid=
-# id
-# id=
-# kind
-# kind=
-# location
-# location=
-# locked
-# locked=
-# locked?
-# organizer
-# organizer=
-# original_start_time
-# original_start_time=
-# private_copy
-# private_copy=
-# private_copy?
-# recurrence
-# recurrence=
-# recurring_event_id
-# recurring_event_id=
-# reminders
-# reminders=
-# sequence
-# sequence=
-# source
-# source=
-# start
-# start=
-# status
-# status=
-# summary
-# summary=
-# transparency
-# transparency=
-# updated
-# updated=
-# visibility
-# visibility=
-# update!
-# to_h
-# psych_to_yaml
-# to_yaml
-# to_yaml_properties
-# to_json
-# pretty_print
-# pretty_print_cycle
-# pretty_print_instance_variables
-# pretty_print_inspect
-# nil?

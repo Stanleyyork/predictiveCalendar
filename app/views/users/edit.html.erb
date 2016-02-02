@@ -1,7 +1,35 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-4 col-sm-offset-4">
-			<%= link_to "Sync Calendar", '/import_events', class: 'btn btn-primary' %>
+		<div class="well" data-toggle="tooltip" data-placement="top" title="Only one calendar permitted at this time">
+			<%= link_to "Sync Calendar", '/import_events', class: 'btn btn-success' %>
+		</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4 col-sm-offset-4">
+			<div class="well">
+			<%= form_for :user, url: '/settings' do |f| %>
+				<div class="form-group">
+					<%= f.label :email %>
+					<%= f.text_field :email, class: "form-control" %>
+				</div>
+				<div class="form-group">
+					<%= f.label :name %>
+					<%= f.text_field :name, class: "form-control" %>
+				</div>
+				<div class="form-group">
+					<div class="checkbox">			
+						<%= f.check_box :private_profile %>
+						<%= f.label :private_profile %>
+					</div>
+				</div>
+				<div class="form-group">
+					<%= f.submit "Submit", class: 'btn btn-default' %>
+				</div>
+			<% end %>
+			</div>
 		</div>
 	</div>
 </div>
+
