@@ -79,8 +79,8 @@ class EventsController < ApplicationController
   end
 
   def create
-    Event.delay.sync(current_user)
-    flash[:notice] = "Currently syncing"
-    redirect_to '/profile'
+    Event.sync(current_user)
+    flash[:notice] = "Currently syncing!!!"
+    redirect_to '/settings'
   end
 end

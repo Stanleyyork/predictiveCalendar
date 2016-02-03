@@ -82,6 +82,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @syncing = User.find(current_user.id).syncing
     @user = User.find(current_user.id)
     @no_events = Event.where(user_id: @user.id).empty?
   end
@@ -116,6 +117,7 @@ class UsersController < ApplicationController
       client_secret: ENV.fetch('GOOGLE_API_CLIENT_SECRET'),
       authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
       scope: Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY,
+      #redirect_uri: 'http://localhost:3000/oauth2callback'
       redirect_uri: 'http://lunacal.herokuapp.com/oauth2callback'
     })
 
@@ -138,8 +140,13 @@ class UsersController < ApplicationController
       c.code = response['access_token']
       c.save
     end
-
+    @user.syncing = true
+    @user.save
     redirect_to '/events/create'
+  end
+
+  def done_syncing
+    render :text => "#{User.find(current_user.id).syncing}"
   end
 
 private

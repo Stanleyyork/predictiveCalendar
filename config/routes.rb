@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get '/import_events' => 'users#redirect'
   get '/oauth2callback' => 'users#callback'
   get '/events/create' => 'events#create'
+  get '/done_syncing' => 'users#done_syncing'
 
   get '/events' => 'events#index'
   get '/analyze' => 'events#analyze'

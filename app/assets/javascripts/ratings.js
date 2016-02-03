@@ -1,6 +1,7 @@
 $(function() {
 
 	console.log("ratings.js working");
+	
 
 	$("#ratings-submit").on('click', function(e){
 		e.preventDefault();

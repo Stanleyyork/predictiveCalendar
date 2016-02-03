@@ -13,3 +13,4 @@
 /tmp
 /app/classes/API/client_secret.json
 env.yml
+secrets.yml

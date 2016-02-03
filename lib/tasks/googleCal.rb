@@ -42,6 +42,8 @@ class CalendarClass
     else
       last_cal.next_sync_token = events_array.next_sync_token
       last_cal.save
+      user.syncing = false
+      user.save
     end
   end
 
