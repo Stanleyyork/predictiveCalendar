@@ -14,6 +14,37 @@ body {
   -webkit-filter: blur(1px); 
 }
 
+#icon-block {
+	text-align: right;
+}
+
+#register-info {
+	margin-top: 75px;
+}
+
+.row.register-icon-row {
+	margin-top: 30px;
+}
+
+#register-icon {
+	font-size: 40px;
+}
+
+#register-form {
+	max-width: 400px;
+}
+
+#login-form {
+	max-width: 400px;
+	margin: 0 auto;
+    width:80% 
+}
+
+#about-page-top {
+	font-size: 16px;
+	margin-top: 50px;
+}
+
 .col-xs-12.caption {
 	margin-top: 200px;
 }
@@ -32,6 +63,7 @@ body {
 }
 
 .row.homepage-bottom {
+	margin-top: 50px;
 	text-align: center;
 }
 
@@ -71,7 +103,7 @@ body {
 }
 
 #mobile-toggle-button {
-	margin-right: -50px
+	margin-right: -20px;
 }
 
 .well.beyond-edges {
@@ -156,14 +188,28 @@ body {
 }
 
 @media all and (max-width: 1075px) {
+	#register-form {
+		max-width: 400px;
+		margin: 0 auto;
+    	width:80% 
+	}
 	#chart_hourly {
 		margin-left: -150px;
+	}
+	#register-info {
+		margin-top: 55px;
 	}
 }
 
 @media all and (max-width: 750px) {
 	#sitename {
 		margin-left: 25px;
+	}
+	#icon-block {
+		text-align: center;
+	}
+	#register-words {
+		text-align: center;
 	}
 	.col-sm-5.meetings-organized {
 		margin-bottom: 25px;
@@ -192,6 +238,9 @@ body {
 	}
 	.col-xs-12.caption-two {
 		margin-top: 300px;
+	}
+	#chart_hourly_small_about {
+		margin-left: -115px;
 	}
 	#chart_hourly_small {
 		margin-left: -50px;
@@ -230,6 +279,9 @@ body {
 	.meetings-organized {
 		margin-bottom: 25px;
 		text-align: center;
+	}
+	#meetings_recurrence {
+		margin-bottom: 25px;
 	}
 	#rating-headers {
 		font-size: 12px;

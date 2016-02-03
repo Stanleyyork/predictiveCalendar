@@ -1,7 +1,8 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-12">
-			<%= "Work in progress" %>
+			<div id='chart_ratings_hourly'></div>
+			<%= render_chart(@events_ratings_hourly, 'chart_ratings_hourly') %>
 		</div>
 	</div>
 </div>

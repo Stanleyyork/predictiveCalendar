@@ -1,15 +1,18 @@
 <div class="container">
 	<div class="row">
-		<div class="col-sm-4">
+		<div class="col-sm-4" id="about-page-top">
 			<br>
-			<b><%= "LunarCal pulls in your Google calendar data for analyzation of:" %></b><br><br>
-			<li><%="Basic information (i.e. numbers of meetings, meetings per hour/day, top collaborators)" %></li>
-			<li><%="Prediction of whether you should go to your next meeting (based on a sample of ratings you give the app for previous meetings). The prediction formula will likely be based on logistic regression (although v1 is a simple weighted average)." %></li>
+			<b><u><%= "Sync Your Google Calendar" %></u></b><br><br>
+			<b><%="Basic stats" %></b><br>
+			<%= "Such as top collaborators,  hours and day of week you have the most meetings, etc." %><br>
+			<%= link_to "See example profile here", '/stanleyyork' %><br><br>
+			<b><%="Prediction of future meetings" %></b><br>
+			<%="Based on a ratings you give previous meetings." %><br>
+			<%= "Version one is a weighted average of attributes with the ultimate goal of using logistic regression." %><br>
 			<br>
-			<%= "You can see an example of a" %> <%= link_to "public profile here", '/stanleyyork' %> <%= ", and you'll  be able to see deeper analysis of your calendar once you log in, including relationships between various attributes (i.e. number of attendees vs. rating) as well as a prediction of future meeting's worthiness (based on rating)." %>
 		</div>
 		<div class="col-sm-6 hidden-xs">
-			<br>
+			
 			<div id='chart_top_collabs_med'></div>
 			<%= render_chart(@events_collabs_sankey_med, 'chart_top_collabs_med') %>
 		</div>
@@ -17,6 +20,16 @@
 			<br>
 			<div id='chart_top_collabs_small'></div>
 			<%= render_chart(@events_collabs_sankey_small, 'chart_top_collabs_small') %>
+		</div>
+		<div class="row">
+			<div class="col-sm-7 hidden-xs hidden-sm">
+				<div id='chart_hourly_about'></div>
+				<%= render_chart(@events_hourly, 'chart_hourly_about') %>
+			</div>
+			<div class="col-xs-3 hidden-md hidden-lg hidden-xl">
+				<div id='chart_hourly_small_about'></div>
+				<%= render_chart(@events_hourly_small, 'chart_hourly_small_about') %>
+			</div>
 		</div>
 	</div>
 	<div class="row">
@@ -27,4 +40,3 @@
 		</div>
 	</div>
 </div>
-

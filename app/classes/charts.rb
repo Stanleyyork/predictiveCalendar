@@ -32,7 +32,13 @@ class GoogleChart
         [x[0],x[1]]
       end
     )
-    return GoogleVisualr::Interactive::ScatterChart.new(data_table_ratings)
+    scatter_ratings_opts = {
+      :width => 1100, :height => 600,
+      hAxis: {title: "#{attribute}", minValue: min, maxValue: max},
+      vAxis: {title: 'Rating', minValue: 1, maxValue: 5},
+      :trendlines => { 0 => {type: 'linear'}, 1 => {type: 'exponential'} }
+    }
+    return GoogleVisualr::Interactive::ScatterChart.new(data_table_ratings, scatter_ratings_opts)
   end
 
   def cancelledPieChart(events_count_cancelled, events_count)
@@ -60,7 +66,7 @@ class GoogleChart
     return GoogleVisualr::Interactive::PieChart.new(data_table_cancelled_pie, cancelled_opts)
   end
 
-  def eventsHourly(events_hourly_array, height, width)
+  def eventsHourly(events_hourly_array, height, width, bgcolor='#f5f5f5')
     data_table_events_hourly = GoogleVisualr::DataTable.new
     data_table_events_hourly.new_column('string', 'Hour')
     data_table_events_hourly.new_column('number', 'No. of Events')
@@ -72,11 +78,10 @@ class GoogleChart
     opts_events_hourly   = {:width => width, :height => height, :legend => "none",
       chartArea: {left: 5},
       colors: ['#5cb85c'],
-      backgroundColor: '#f5f5f5',
+      backgroundColor: bgcolor,
       tooltip: {isHtml: true},
       curveType: 'function',
         hAxis: {
-          textPosition: "none",
           baseline: -1,
           baselineColor: "none",
           gridlines: {color: "none"}
