@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
 	has_secure_password
 
+	validates_presence_of :name, :on => :create, :notice => "Need a name"
+
 	validates_confirmation_of :password, :notice => "Need a password"
   	validates_presence_of :password, :on => :create, :notice => "Need a password"
 

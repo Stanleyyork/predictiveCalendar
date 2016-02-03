@@ -3,7 +3,7 @@
 <% else %>
 	<div class="row">
 		<p id="profile-name"><%= @user.name %></p>
-		<p id="profile-summary"><%= "On an average weekday, you attend #{@average_day_events_count.round} meetings, mostly in the #{@events_morn_after}, collaborating with approximately #{@average_day_events_attendee_count.round} people during that time." %></p>
+		<p id="profile-summary"  data-toggle="tooltip" data-placement="bottom" title="Average weekday data based on meetings from the past 90 days"><%= "You've been to "%> <b><%= number_with_delimiter(@events_count, :delimiter => ',') %></b> <%= "total meetings. On an average weekday, you attend" %> <b><%= "#{@average_day_events_count.round} meetings" %></b> <%= ", mostly in the #{@events_morn_after}, collaborating with approximately " %><b><%= "#{@average_day_events_attendee_count.round} people" %></b><%= " during that time." %></p>
 	</div>
 	<div class="row">
 		<div class="well beyond-edges">
@@ -43,13 +43,17 @@
 	</div>
 	<div class="row">
 		<div class="well beyond-edges">
-			<div class="col-sm-5">
+			<div class="col-sm-4">
 				<div id='chart_daily'></div>
 				<%= render_chart(@events_daily, 'chart_daily') %>
 			</div>
-			<div class="col-sm-5 meetings-organized">
+			<div class="col-sm-4 meetings-organized">
 				<div id="meetings_created"><%= "#{@meetings_created_self}" %></div><br>
-				<%= "meetings you organized (vs. #{@meetings_attended} meetings you simply attended" %>
+				<%= "meetings you organized (#{@meetings_attended} as attendee only)" %>
+			</div>
+			<div class="col-sm-4 meetings-organized">
+				<div id="meetings_recurrence" data-toggle="tooltip" data-placement="left" title="Not all of them still in existence"><%= "#{@events_count_recurrence}" %></div><br>
+				<%= "recurring meetings" %>
 			</div>
 		</div>
 	</div>

@@ -13,7 +13,6 @@ class SessionsController < ApplicationController
       redirect_to '/profile'
     else
     # If user's login doesn't work, send them back to the login form.
-      puts "errors: #{user.errors.messages}"
       flash[:notice] = "Error"
       redirect_to '/login'
     end

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get '/' => 'application#homepage'
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
@@ -21,6 +22,5 @@ Rails.application.routes.draw do
   
   get '/:username' => 'users#show'
   get '/profile' => 'users#show'
-  get '/' => 'users#show'
 
 end

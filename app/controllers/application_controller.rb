@@ -12,5 +12,10 @@ class ApplicationController < ActionController::Base
   def authorize
     redirect_to '/login' unless current_user
   end
+
+  def homepage
+    @hello = "hello"
+    render template: "layouts/homepage.html.erb"
+  end
   
 end

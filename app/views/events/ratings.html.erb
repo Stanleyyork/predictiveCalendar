@@ -1,43 +1,54 @@
-Events Rated: <%= @events_rated %><br>
-<p id="green">Green = <%= current_user.name %> organized</p>
+<p>Events Rated: <%= "#{@events_rated} / #{@events.count}" %></p>
 <p>Not showing meetings that were cancelled or had less than 2 attendees</p>
+<p id="green">Green = <%= current_user.name %> organized</p>
+
 <form id="ratings-form">
-	<button value="Submit" class="btn btn-primary" id="ratings-submit">Submit</button><br><br>
+	
 	<div class="row">
+		<div class="well">
 			<div class="col-xs-2">
-				<b>Ratings</b>
+				<p id="rating-headers">Ratings</p>
 			</div>
 			<div class="col-xs-2">
-				<b>Current Rating</b>
+				<p id="rating-headers">Current Rating</p>
 			</div>
-			<div class="col-xs-4">
-				<b>Event</b>
+			<div class="col-xs-6">
+				<p id="rating-headers">Event</p>
 			</div>
-		</div>
-		<br>
-	<% @events.each do |e| %>
-		<div class="row">
-			<div class="col-xs-2">
-				<div class="radio-buttons" id="<%= e.gcal_event_id %>">
-					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="1"> 1</label>
-					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="2"> 2</label>
-					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="3"> 3</label>
-					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="4"> 4</label>
-					<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="5"> 5</label>
+		<br><br>
+		<% @events.each do |e| %>
+		<hr>
+			<div class="row">
+				<div class="col-xs-2">
+					<div class="radio-buttons" id="<%= e.gcal_event_id %>">
+						<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="1"> 1</label>
+						<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="2"> 2</label>
+						<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="3"> 3</label>
+						<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="4"> 4</label>
+						<label><input type="radio" name="optradio-<%= e.gcal_event_id %>" id="<%= e.gcal_event_id %>" value="5"> 5</label>
+					</div>
+				</div>
+				<div class="col-xs-2">
+					<p id="current-rating"><%= e.rating %></p>
+				</div>
+				<div class="col-xs-6 creator_self-<%=e.creator_self%>">
+					Summary: <%= e.summary.nil? ? "n/a" : e.summary %> / Attendees: <%= e.attendee_count %><br>
+					Creator: <%= e.creator %><br>
+					<%="Start: #{e.start.nil? ? e.original_start_time.in_time_zone("Pacific Time (US & Canada)").strftime("%A, %B %d, %Y at %l%p") : e.start.in_time_zone("Pacific Time (US & Canada)").strftime("%A, %B %d, %Y at %l%p")}" %>
+					<%= link_to "Cal", e.html_link %>
+					<%= " / " %>
+					<%= link_to "Event", "/events/#{e.id}" %>
 				</div>
 			</div>
-			<div class="col-xs-1">
-				<%= e.rating %>
-			</div>
-			<div class="col-xs-5 creator_self-<%=e.creator_self%>">
-				Summary: <%= e.summary.nil? ? "n/a" : e.summary %> / Attendees: <%= e.attendee_count %><br>
-				Creator: <%= e.creator %><br>
-				<%="Start: #{e.start.nil? ? e.original_start_time.in_time_zone("Pacific Time (US & Canada)").strftime("%A, %B %d, %Y at %l%p") : e.start.in_time_zone("Pacific Time (US & Canada)").strftime("%A, %B %d, %Y at %l%p")}" %>
-				<%= link_to "Cal", e.html_link %>
-				<%= " / " %>
-				<%= link_to "Event", "/events/#{e.id}" %>
-			</div>
-		</div>
-		<br>
-	<% end %>
+		<% end %>
+	</div>
+
+	<nav class="navbar navbar-default navbar-fixed-bottom" id="ratings-bottom-navbar">
+	  <div class="container">
+	  	<div id="bottom-submit">
+	    	<button value="Submit" class="btn btn-primary" id="ratings-submit">Submit</button>
+	    </div>
+	  </div>
+	</nav>
+
 </form>

@@ -4,12 +4,44 @@ body {
 	color: #636363;
 }
 
-#nav-brand {
-	margin-left: 20px;
-	font-size: 20px;
+.homepage-photo {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  /* Preserve aspet ratio */
+  min-width: 50%;
+  min-height: 50%;
+  -webkit-filter: blur(2px); 
 }
 
-.col-xs-6.navbar-right {
+.carousel-caption {
+	text-shadow: none;
+	color: grey;
+}
+
+#collab-photo {
+	width: 600px;
+}
+
+#nav-brand {
+	margin-left: 20px;
+	margin-top: 12px;
+	font-size: 23px;
+	color: #428bca;
+}
+
+#sitename {
+	margin-top: 12px;
+	margin-left: 25px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#brand-row {
+	display: inline-block;
+}
+
+.navbar-right {
 	margin-right: 25px;
 }
 
@@ -18,7 +50,7 @@ body {
 	min-width: 350px
 }
 
-.col-xs-5.creator_self-true {
+.creator_self-true {
 	color: green;
 }
 
@@ -45,11 +77,12 @@ body {
 }
 
 #chart_hourly {
-	margin-left: -50px;
+	margin-left: -40px;
 }
 
 #chart_cancelled {
 	margin-top: -15px;
+	margin-right: 15px;
 }
 
 #chart_cancelled > div > div:nth-child(1) > div > svg > rect {
@@ -65,7 +98,7 @@ body {
 }
 
 .row.sankey {
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }
 
 #meetings_created {
@@ -73,6 +106,33 @@ body {
 	font-weight: bold;
 	margin-top: 25px;
 	margin-bottom: -25px;
+}
+
+#meetings_recurrence {
+	font-size: 55px;
+	font-weight: bold;
+	margin-top: 25px;
+	margin-bottom: -25px;
+}
+
+#rating-headers {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#ratings-bottom-navbar {
+	height: 50px;
+	vertical-align: middle;
+}
+
+#bottom-submit {
+	margin-top: 5px;
+}
+
+#current-rating {
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
 }
 
 #green {
@@ -86,14 +146,23 @@ body {
 }
 
 @media all and (max-width: 750px) {
+	#sitename {
+		margin-left: 25px;
+	}
 	.col-sm-5.meetings-organized {
+		margin-bottom: 25px;
+		text-align: center;
+	}
+	.meetings-organized {
 		margin-bottom: 25px;
 		text-align: center;
 	}
 }
 
 @media all and (max-width: 500px) {
-
+	#sitename {
+		margin-left: 25px;
+	}
 	#chart_hourly_small {
 		margin-left: -110px;
 	}
@@ -125,6 +194,10 @@ body {
 		max-width: 450px;
 	}
 	.col-sm-5.meetings-organized {
+		margin-bottom: 25px;
+		text-align: center;
+	}
+	.meetings-organized {
 		margin-bottom: 25px;
 		text-align: center;
 	}

@@ -19,20 +19,30 @@ class EventsController < ApplicationController
 
   def analyze
     @events = Event.where(user_id: current_user.id)
+
+    # Develop lienar regression formula in seperate class
     @linear_regress_attendee_rating = SimpsonMathClass.new.linearRegression(current_user, :attendee_count, :rating)
     @linear_regress_hourly_rating = SimpsonMathClass.new.linearRegression(current_user, :start, :rating)
     @linear_regress_recurrence_rating = SimpsonMathClass.new.linearRegression(current_user, :recurrence, :rating)
-    @events_ratings_hourly_array = ChartArray.new.dateTimeHourArray(:start, current_user)
+    
+    # Develop arrays for charts in seperate class
+    events_ratings_hourly_array = ChartArray.new.dateTimeHourArray(:start, current_user)
     events_ratings_attendees_array = ChartArray.new.numberArray(:attendee_count, current_user)
     events_ratings_recurrence_array = ChartArray.new.categoricalArray(:recurrence, current_user)
-    @events_ratings_hourly = GoogleChart.new.scatterRatingsChart(@events_ratings_hourly_array, "Hour of Day", 0, 23, "Ratings vs. Hour of Day Comparison (#{@linear_regress_hourly_rating[:line]})")
+    
+    # Build charts in seperate class
+    @events_ratings_hourly = GoogleChart.new.scatterRatingsChart(events_ratings_hourly_array, "Hour of Day", 0, 23, "Ratings vs. Hour of Day Comparison (#{@linear_regress_hourly_rating[:line]})")
     @events_ratings_attendees = GoogleChart.new.bubbleRatingsChart(events_ratings_attendees_array, "No. of Attendees", 0, 25, "Ratings vs. No. of Attendees (#{@linear_regress_attendee_rating[:line]})")
     @events_ratings_recurrence = GoogleChart.new.bubbleRatingsChart(events_ratings_recurrence_array, "Recurring Meeting (0 = No)", 0, 1, "Ratings vs. Recurring meeting (#{@linear_regress_recurrence_rating[:line]})")
   end
 
   def ratings
-    @events_rated = Event.where(user_id: current_user.id).where.not(rating: nil).count
-    @events = Event.where(user_id: current_user.id).where.not(start: nil).where("start < ?", DateTime.now).where.not(status: 'cancelled').where.not(attendee_count: 0).where.not(attendee_count: 1).where.not(summary: "%DNS").where.not(summary: "%OOO").order('start desc')
+    if !Event.where(user_id: current_user.id).empty?
+      @events_rated = Event.where(user_id: current_user.id).where.not(rating: nil).count
+      @events = Event.where(user_id: current_user.id).where.not(start: nil).where("start < ?", DateTime.now).where.not(status: 'cancelled').where.not(attendee_count: 0).where.not(attendee_count: 1).where.not(summary: "%DNS").where.not(summary: "%OOO").order('start desc')
+    else
+      redirect_to '/settings'
+    end
   end
 
   def update_ratings

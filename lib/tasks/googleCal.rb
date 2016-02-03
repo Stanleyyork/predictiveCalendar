@@ -19,36 +19,15 @@ class CalendarClass
     client = Signet::OAuth2::Client.new(access_token: token)
     service = Google::Apis::CalendarV3::CalendarService.new
     service.authorization = client
-    ## client.methods...
-    # authorization_uri: 
-    # token_credential_uri: 
-    # client_id: 
-    # client_secret: 
-    # code: 
-    # expires_at: 
-    # expires_in: 
-    # issued_at: 
-    # issuer: 
-    # password: 
-    # principal: 
-    # redirect_uri: 
-    # scope: 
-    # state: 
-    # username: 
-    # expiry: 60
-    # extension_parameters: {}
-    # additional_parameters: {}
-    # access_token: ya29.eAJzw-BdC_hVweU00t9Fo-Y7gSw7hrLjw6n-IteYdVunEocOUlk1fLA_utY0WqHZkSYktA
 
-    if(last_cal.next_sync_token)
-      puts "sync token"
-      puts "#{last_cal.next_sync_token}"
-      events_array = service.list_events('primary', max_results: 2500, sync_token: last_cal.next_sync_token)
-    elsif(page_token == '')
-      puts "no page token"
+    # if(last_cal.next_sync_token)
+    #   puts "sync token"
+    #   puts "#{last_cal.next_sync_token}"
+    #   events_array = service.list_events('primary', max_results: 2500, sync_token: last_cal.next_sync_token)
+    # elsif(page_token == '')
+    if(page_token == '')
       events_array = service.list_events('primary', max_results: 2500)
     else
-      puts "page token"
       events_array = service.list_events('primary', max_results: 2500, page_token: page_token)
     end
     
@@ -68,17 +47,13 @@ class CalendarClass
 
   def parseAndSave(events_array, user, last_cal)
     events_array.items.each do |e|
-      puts e.id
-      puts e.to_h
-      puts "==="
-      existEvent = Event.find_by_gcal_event_id(e.id)
+      existEvent = Event.where(user_id: user.id).where(gcal_event_id: e.id).first
       event_attributes = {
         user_id: user.id,
         calendar_id: last_cal.id,
         attachments: e.attachments,
         anyone_can_add_self: e.anyone_can_add_self,
         syncd_and_changed: !existEvent.nil?,
-        round: existEvent.nil? ? 1 : existEvent.round + 1,
         created: e.created,
         creator: e.creator.try(:display_name),
         creator_self: e.creator.try(:self),
@@ -107,20 +82,24 @@ class CalendarClass
         event = Event.new()
       else
         event = existEvent
+        Attendee.where(user_id: user.id).where(event_id: event.id).delete_all
       end
       event.update_attributes(event_attributes)
       event.save
       if !e.attendees.nil?
         event.attendee_count = e.attendees.count
         event.save
-        e.attendees.each do |a|
-          a = Attendee.new(a.to_h)
-          a.round = existEvent.nil? ? 1 : existEvent.round + 1
-          a.event_id = e.id
-          a.user_id = user.id
-          a.save
-        end
+        attendeeSave(user, event, e)
       end
+    end
+  end
+
+  def attendeeSave(user, event, e)
+    e.attendees.each do |a|
+      a = Attendee.new(a.to_h)
+      a.event_id = e.id
+      a.user_id = user.id
+      a.save
     end
   end
 
