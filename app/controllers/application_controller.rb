@@ -14,8 +14,11 @@ class ApplicationController < ActionController::Base
   end
 
   def homepage
-    @hello = "hello"
     render template: "layouts/homepage.html.erb"
+  end
+
+  def about
+    render template: "layouts/about.html.erb"
   end
   
 end

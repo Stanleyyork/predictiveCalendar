@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   get '/' => 'application#homepage'
+  get '/about' => 'application#about'
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'

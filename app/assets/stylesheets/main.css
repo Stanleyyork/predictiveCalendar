@@ -11,16 +11,23 @@ body {
   /* Preserve aspet ratio */
   min-width: 50%;
   min-height: 50%;
-  -webkit-filter: blur(2px); 
+  -webkit-filter: blur(1px); 
 }
 
-.carousel-caption {
-	text-shadow: none;
-	color: grey;
+.col-xs-12.caption {
+	margin-top: 200px;
 }
 
-#collab-photo {
-	width: 600px;
+.col-xs-12.caption-two {
+	margin-top: 150px;
+}
+
+
+#homepage-example {
+	color: white;
+	background-color: #008f00;
+	border-color: #008f00;
+	opacity: 0.6;
 }
 
 #nav-brand {

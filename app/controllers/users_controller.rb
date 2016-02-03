@@ -25,7 +25,7 @@ class UsersController < ApplicationController
         
         # Queries for charts
         @top_25_attendees = Attendee.where(user_id: @user.id).where.not("email like ?", "%resource.calendar.google.com%").group(:email).order('count_id desc').limit(25).count(:id)
-        events_collabs_array = @top_25_attendees.map{|k,v| ["#{@user.name}", k.split("@").first, v]}
+        events_collabs_array = @top_25_attendees.each_with_index.map{|x,i| @user == current_user ? ["#{@user.name}", x[0].split("@").first, x[1]] : ["#{@user.name}", "J. Harbaugh-#{i}", x[1]]}
         @events_count_cancelled = Event.where(user_id: @user.id).where(status: 'cancelled').count
         @events_hourly_grouped = @events.group_by_hour_of_day(:start, time_zone: "Pacific Time (US & Canada)").count
         @events_week_day = @events.group_by_day_of_week(:start, time_zone: "Pacific Time (US & Canada)").count

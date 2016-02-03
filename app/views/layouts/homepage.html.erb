@@ -1,19 +1,21 @@
 <script>$("body > nav").hide();</script>
 <div class="container">
 	<div class="row">
-		<div class="col-xs-12">
-		<%= image_tag "jump.jpg", class: "homepage-photo" %>
-		</div><br><br><br>
-		<div class="col-xs-4">
+		<div class="col-xs-12 background-image">
+		<%= image_tag "nyc_park", class: "homepage-photo" %>
+		</div>
+		<div class="col-xs-12 caption">
 			<div class="carousel-caption">
 	           <h1 id="highlight">LunaCal</h1>
-	        </div>
+	        </div><br>
 	    </div>
 	</div><br><br><br><br>
 	<div class="row">
-	    <div class="col-xs-12">
+	    <div class="col-xs-12 caption-two">
 	        <div class="carousel-caption">
-	           <h3 id="highlight">Analyze your calendar and help us predict whether you should go to your next meeting</h3>
+	           <h3 id="highlight">Analyze your calendar for basic stats and to predict whether you should go to your next meeting</h3>
+	           <a href="/signup" class="btn btn-lg btn-primary">Register</a><br><br>
+	           <a href="/about" class="btn btn-xs btn-default" id="homepage-example">Learn More</a>
 	        </div>
         </div>
     </div>
