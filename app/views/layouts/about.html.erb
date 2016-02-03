@@ -1,14 +1,30 @@
 <div class="container">
 	<div class="row">
-		<div class="col-xs-4">
-			<%= "Analyze your calendar and help us predict whether you should go to your next meeting" %>
+		<div class="col-sm-4">
+			<br>
+			<b><%= "LunarCal pulls in your Google calendar data for analyzation of:" %></b><br><br>
+			<li><%="Basic information (i.e. numbers of meetings, meetings per hour/day, top collaborators)" %></li>
+			<li><%="Prediction of whether you should go to your next meeting (based on a sample of ratings you give the app for previous meetings). The prediction formula will likely be based on logistic regression (although v1 is a simple weighted average)." %></li>
+			<br>
+			<%= "You can see an example of a" %> <%= link_to "public profile here", '/stanleyyork' %> <%= ", and you'll  be able to see deeper analysis of your calendar once you log in, including relationships between various attributes (i.e. number of attendees vs. rating) as well as a prediction of future meeting's worthiness (based on rating)." %>
 		</div>
-		<div class="col-xs-6">
-			<%= image_tag "collaborations_sankey.png", id:'collab-photo'%>
+		<div class="col-sm-6 hidden-xs">
+			<br>
+			<div id='chart_top_collabs_med'></div>
+			<%= render_chart(@events_collabs_sankey_med, 'chart_top_collabs_med') %>
+		</div>
+		<div class="col-sm-4 hidden-sm hidden-md hidden-lg hidden-xl">
+			<br>
+			<div id='chart_top_collabs_small'></div>
+			<%= render_chart(@events_collabs_sankey_small, 'chart_top_collabs_small') %>
 		</div>
 	</div>
-	<div class="row homepage-bottom">
-		<%= "created by" %> <%= link_to "Stanley Stevens", 'http://www.stanleyyork.com' %>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="row homepage-bottom">
+				<%= "created by" %> <%= link_to "Stanley Stevens", 'http://www.stanleyyork.com' %>
+			</div>
+		</div>
 	</div>
 </div>
 

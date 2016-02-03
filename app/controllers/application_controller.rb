@@ -18,6 +18,12 @@ class ApplicationController < ActionController::Base
   end
 
   def about
+
+    @user = User.find_by_email("stanleyyork@gmail.com")
+    attendees = [100, 90, 55, 50, 30, 25, 25, 20, 20, 18, 15, 12]
+    events_collabs_array = attendees.each_with_index.map{|x,i| ["Stanley", "J. Harbaugh-#{i}", x]}
+    @events_collabs_sankey_small = GoogleChart.new.sankey(events_collabs_array[1..15],400,325)
+    @events_collabs_sankey_med = GoogleChart.new.sankey(events_collabs_array[1..15],400,650)
     render template: "layouts/about.html.erb"
   end
   

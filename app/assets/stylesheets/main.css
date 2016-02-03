@@ -19,15 +19,20 @@ body {
 }
 
 .col-xs-12.caption-two {
-	margin-top: 150px;
+	margin-top: 225px;
 }
 
+#collab-photo {
+	width: 650px;
+}
 
 #homepage-example {
 	color: white;
-	background-color: #008f00;
-	border-color: #008f00;
-	opacity: 0.6;
+	opacity: 0.8;
+}
+
+.row.homepage-bottom {
+	text-align: center;
 }
 
 #nav-brand {
@@ -42,6 +47,10 @@ body {
 	margin-left: 25px;
 	font-size: 18px;
 	font-weight: bold;
+}
+
+#sitename-url {
+	text-decoration: none;
 }
 
 #brand-row {
@@ -169,6 +178,12 @@ body {
 @media all and (max-width: 500px) {
 	#sitename {
 		margin-left: 25px;
+	}
+	.col-xs-12.caption {
+		margin-top: 150px;
+	}
+	.col-xs-12.caption-two {
+		margin-top: 300px;
 	}
 	#chart_hourly_small {
 		margin-left: -110px;
