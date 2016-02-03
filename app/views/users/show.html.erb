@@ -3,27 +3,31 @@
 <% else %>
 	<div class="row">
 		<p id="profile-name"><%= @user.name %></p>
-		<p id="profile-summary"><%= "On an average weekday, you attend #{@average_day_events_count.round} meetings, mostly in the #{@events_morn_after}, collaborating with approximately #{@average_day_events_attendee_count.round} people." %></p>
+		<p id="profile-summary"><%= "On an average weekday, you attend #{@average_day_events_count.round} meetings, mostly in the #{@events_morn_after}, collaborating with approximately #{@average_day_events_attendee_count.round} people during that time." %></p>
 	</div>
 	<div class="row">
 		<div class="well beyond-edges">
-			<div class="col-sm-7 hidden-xs">
+			<div class="col-sm-7 hidden-xs hidden-sm hidden-md">
 				<div id='chart_hourly'></div>
 				<%= render_chart(@events_hourly, 'chart_hourly') %>
+			</div>
+			<div class="col-xs-7 hidden-xs hidden-lg hidden-xl">
+				<div id='chart_hourly_med'></div>
+				<%= render_chart(@events_hourly_med, 'chart_hourly_med') %>
 			</div>
 			<div class="col-xs-3 hidden-sm hidden-md hidden-lg hidden-xl">
 				<div id='chart_hourly_small'></div>
 				<%= render_chart(@events_hourly_small, 'chart_hourly_small') %>
 			</div>
-			<div class="col-sm-1">
+			<div class="col-xs-1">
 			</div>
-			<div class="col-sm-2 hidden-xs">
+			<div class="col-sm-2 hidden-sm hidden-xs">
 				<div id='chart_cancelled'></div>
 				<%= render_chart(@cancelled_percentage, 'chart_cancelled') %>
 			</div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row sankey">
 		<div class="hidden-sm hidden-xs">
 			<div id='chart_top_collabs'></div>
 			<%= render_chart(@events_collabs_sankey, 'chart_top_collabs') %>
@@ -38,6 +42,15 @@
 		</div>
 	</div>
 	<div class="row">
-		
+		<div class="well beyond-edges">
+			<div class="col-sm-5">
+				<div id='chart_daily'></div>
+				<%= render_chart(@events_daily, 'chart_daily') %>
+			</div>
+			<div class="col-sm-5 meetings-organized">
+				<div id="meetings_created"><%= "#{@meetings_created_self}" %></div><br>
+				<%= "meetings you organized (vs. #{@meetings_attended} meetings you simply attended" %>
+			</div>
+		</div>
 	</div>
 <% end %>

@@ -29,13 +29,25 @@ class UsersController < ApplicationController
       @events_morning = @events_hourly_grouped.map{|k,v| k < 12 ? v : 0}
       @events_afternoon = @events_hourly_grouped.map{|k,v| k < 12 ? 0 : v}
       @events_morn_after = @events_morning.sum > @events_afternoon.sum ? "morning" : "afternoon"
-      @events_hourly_array = @events_hourly_grouped.map{|k,v| k < 12 ? ["#{k}am",v] : ["#{k}pm",v]}
-      @events_hourly = GoogleChart.new.eventsHourly(@events_hourly_array.map{|k,v| v != 0 ? [k,v] : []}, 1000)
+      events_daily_array = @events.group_by_day_of_week(:start, time_zone: "Pacific Time (US & Canada)", format: "%A").count.map{|k,v| ["#{k}",v]}
+      @meetings_created_self = @events.where( Event.arel_table[:organizer_self].eq(true). or(Event.arel_table[:creator_self].eq(true)) ).count
+      @meetings_attended = @events_count - @meetings_created_self
+      # Percentage of Meetings Cancelled Chart
       @cancelled_percentage = GoogleChart.new.cancelledPieChart(@events_count_cancelled, @events_count)
-      @events_hourly_small = GoogleChart.new.eventsHourly(@events_hourly_array.map{|k,v| v != 0 ? [k,v] : []}, 650)
+      
+      # Top Time of Day (Hour) Charts
+      @events_hourly_array = @events_hourly_grouped.map{|k,v| k < 12 ? ["#{k}am",v] : ["#{k}pm",v]}
+      @events_hourly = GoogleChart.new.eventsHourly(@events_hourly_array.map{|k,v| v != 0 ? [k,v] : []}, 150, 1000)
+      @events_hourly_med = GoogleChart.new.eventsHourly(@events_hourly_array.map{|k,v| v != 0 ? [k,v] : []}, 150, 850)
+      @events_hourly_small = GoogleChart.new.eventsHourly(@events_hourly_array.map{|k,v| v != 0 ? [k,v] : []}, 150, 650)
+      
+      # Top Collaborator Charts
       @events_collabs_sankey = GoogleChart.new.sankey(events_collabs_array[1..-1])
       @events_collabs_sankey_med = GoogleChart.new.sankey(events_collabs_array[1..15],400,650)
       @events_collabs_sankey_small = GoogleChart.new.sankey(events_collabs_array[1..10],300,375)
+
+      # Top Days Chart
+      @events_daily = GoogleChart.new.eventsDaily(events_daily_array[1..5], 225, 500)
     else
       redirect_to '/profile'
     end

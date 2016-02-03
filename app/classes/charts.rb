@@ -14,6 +14,7 @@ class GoogleChart
     opts_ratings   = { 
       :width => 1100, :height => 600,
       title: "#{title}",
+      tooltip: {isHtml: true},
       hAxis: {title: "#{attribute}", minValue: min, maxValue: max},
       vAxis: {title: 'Rating', minValue: 1, maxValue: 5},
       legend: 'none'
@@ -49,6 +50,7 @@ class GoogleChart
     cancelled_opts   = { :width => 200, :height => 200, pieSliceText: 'none', :legend => "none",
       colors: ['#5bc0de', '#428bca'],
       backgroundColor: '#f5f5f5',
+      tooltip: {isHtml: true},
       slices: {
              },
             chartArea: {top: 35, left: 10},
@@ -58,7 +60,7 @@ class GoogleChart
     return GoogleVisualr::Interactive::PieChart.new(data_table_cancelled_pie, cancelled_opts)
   end
 
-  def eventsHourly(events_hourly_array, width)
+  def eventsHourly(events_hourly_array, height, width)
     data_table_events_hourly = GoogleVisualr::DataTable.new
     data_table_events_hourly.new_column('string', 'Hour')
     data_table_events_hourly.new_column('number', 'No. of Events')
@@ -67,10 +69,12 @@ class GoogleChart
         [x[0],x[1]]
       end
     )
-    opts_events_hourly   = {:width => width, :height => 200, :legend => "none",
+    opts_events_hourly   = {:width => width, :height => height, :legend => "none",
       chartArea: {left: 5},
       colors: ['#5cb85c'],
       backgroundColor: '#f5f5f5',
+      tooltip: {isHtml: true},
+      curveType: 'function',
         hAxis: {
           textPosition: "none",
           baseline: -1,
@@ -83,7 +87,37 @@ class GoogleChart
           gridlines: {color: "none"}
         }
      }
-    return GoogleVisualr::Interactive::ColumnChart.new(data_table_events_hourly, opts_events_hourly)
+    return GoogleVisualr::Interactive::LineChart.new(data_table_events_hourly, opts_events_hourly)
+  end
+
+  def eventsDaily(events_daily_array, height, width)
+    data_table_events_daily = GoogleVisualr::DataTable.new
+    data_table_events_daily.new_column('string', 'Hour')
+    data_table_events_daily.new_column('number', 'No. of Events')
+    data_table_events_daily.add_rows(
+      events_daily_array.each do |x|
+        [x[0],x[1]]
+      end
+    )
+    opts_events_dailiy   = {:width => width, :height => height, :legend => "none",
+      chartArea: {left: 5},
+      colors: ['#428bca'],
+      backgroundColor: '#f5f5f5',
+      tooltip: {isHtml: true},
+      curveType: 'function',
+        hAxis: {
+          textPosition: "none",
+          baseline: -1,
+          baselineColor: "none",
+          gridlines: {color: "none"}
+        },
+        vAxis: {
+          textPosition: "none",
+          baselineColor: "none",
+          gridlines: {color: "none"}
+        }
+     }
+    return GoogleVisualr::Interactive::BarChart.new(data_table_events_daily, opts_events_dailiy)
   end
 
   def sankey(data, height=500, width=1200)
@@ -102,7 +136,8 @@ class GoogleChart
         width: width,
         sankey: {
         node: {
-          colors: colors
+          colors: colors,
+          label: { color: '#636363' }
         },
         link: {
           colorMode: 'gradient',
