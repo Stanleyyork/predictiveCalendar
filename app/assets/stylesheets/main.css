@@ -176,8 +176,16 @@ body {
 }
 
 @media all and (max-width: 500px) {
+	#nav-brand {
+		margin-left: 0px;
+	}
 	#sitename {
-		margin-left: 25px;
+		margin-left: 0px;
+	}
+	.well.beyond-edges {
+		margin-left: -15px;
+		margin-right: -25px;
+		min-width: 100%;
 	}
 	.col-xs-12.caption {
 		margin-top: 150px;
@@ -186,7 +194,7 @@ body {
 		margin-top: 300px;
 	}
 	#chart_hourly_small {
-		margin-left: -110px;
+		margin-left: -50px;
 	}
 	#chart_hourly_small > div > div:nth-child(1) {
 		max-width: 450px;
@@ -222,6 +230,13 @@ body {
 	.meetings-organized {
 		margin-bottom: 25px;
 		text-align: center;
+	}
+	#rating-headers {
+		font-size: 12px;
+		font-weight: bold;
+	}
+	#profile-mobile {
+		margin-top: 40px;
 	}
 
 }
