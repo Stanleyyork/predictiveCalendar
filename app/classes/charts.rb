@@ -55,14 +55,16 @@ class GoogleChart
     )
     cancelled_opts   = { :width => 200, :height => 200, pieSliceText: 'none', :legend => "none",
       colors: ['#5bc0de', '#428bca'],
-      backgroundColor: '#f5f5f5',
+      backgroundColor:'transparent',
       tooltip: {isHtml: true},
-      slices: {
-             },
-            chartArea: {top: 35, left: 10},
-            tooltip: { :textStyle => {fontSize: 14} },
-            pieHole: 0.4
-          }
+      chartArea: {
+            top: "0%",
+            height: "60%"
+          },
+          chartArea: {top: 35, left: 10},
+          tooltip: { :textStyle => {fontSize: 14} },
+          pieHole: 0.4
+        }
     return GoogleVisualr::Interactive::PieChart.new(data_table_cancelled_pie, cancelled_opts)
   end
 
@@ -84,7 +86,8 @@ class GoogleChart
         hAxis: {
           baseline: -1,
           baselineColor: "none",
-          gridlines: {color: "none"}
+          gridlines: {color: "none"},
+          textStyle: {color: '#b1b1b1'}
         },
         vAxis: {
           textPosition: "none",

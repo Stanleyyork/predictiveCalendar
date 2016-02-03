@@ -29,10 +29,10 @@ class EventsController < ApplicationController
     events_ratings_hourly_array = ChartArray.new.dateTimeHourArray(:start, current_user)
     events_ratings_attendees_array = ChartArray.new.numberArray(:attendee_count, current_user)
     events_ratings_recurrence_array = ChartArray.new.categoricalArray(:recurrence, current_user)
-    
+    puts events_ratings_hourly_array
     # Build charts in seperate class
     @events_ratings_hourly = GoogleChart.new.scatterRatingsChart(events_ratings_hourly_array, "Hour of Day", 0, 23, "Ratings vs. Hour of Day Comparison (#{@linear_regress_hourly_rating[:line]})")
-    @events_ratings_attendees = GoogleChart.new.bubbleRatingsChart(events_ratings_attendees_array, "No. of Attendees", 0, 25, "Ratings vs. No. of Attendees (#{@linear_regress_attendee_rating[:line]})")
+    @events_ratings_attendees = GoogleChart.new.scatterRatingsChart(events_ratings_attendees_array, "No. of Attendees", 0, 25, "Ratings vs. No. of Attendees (#{@linear_regress_attendee_rating[:line]})")
     @events_ratings_recurrence = GoogleChart.new.bubbleRatingsChart(events_ratings_recurrence_array, "Recurring Meeting (0 = No)", 0, 1, "Ratings vs. Recurring meeting (#{@linear_regress_recurrence_rating[:line]})")
   end
 

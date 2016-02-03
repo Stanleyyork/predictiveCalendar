@@ -41,9 +41,8 @@ class UsersController < ApplicationController
         
         # Top Time of Day (Hour) Charts
         @events_hourly_array = @events_hourly_grouped.map{|k,v| k < 12 ? ["#{k}a",v] : k == 12 ? ["#{k}p",v] : ["#{k-12}p",v]}
-        @events_hourly = GoogleChart.new.eventsHourly(@events_hourly_array.map{|k,v| v != 0 ? [k,v] : []}, 150, 1000)
-        @events_hourly_med = GoogleChart.new.eventsHourly(@events_hourly_array.map{|k,v| v != 0 ? [k,v] : []}, 150, 850)
-        @events_hourly_small = GoogleChart.new.eventsHourly(@events_hourly_array.map{|k,v| v != 0 ? [k,v] : []}, 150, 650)
+        @events_hourly = GoogleChart.new.eventsHourly(@events_hourly_array, 150, 800)
+        @events_hourly_small = GoogleChart.new.eventsHourly(@events_hourly_array, 150, 450)
         
         # Top Collaborator Charts
         @events_collabs_sankey = GoogleChart.new.sankey(events_collabs_array[1..-1])

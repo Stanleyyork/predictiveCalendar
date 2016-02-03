@@ -2,10 +2,14 @@ $(function() {
 
 	var counter = 5;
 
-	var syncing = $('#sync')[0].attributes.data.value;
+	if($('#sync').attributes){
+		var syncing = $('#sync')[0].attributes.data.value;
+	} else {
+		var syncing = "false";
+	}
 
-	if(syncing === String(true)){
-		
+	if(syncing === "true"){
+		console.log("sync in progress");
 		$(".progress.hidden").removeClass("hidden");
 
 		progressBarCount();

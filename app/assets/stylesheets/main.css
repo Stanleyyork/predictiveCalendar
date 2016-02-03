@@ -124,17 +124,46 @@ body {
 	margin-left: 20px;
 }
 
-#chart_hourly {
-	margin-left: -40px;
+#chart_hourly > div > div:nth-child(1) > div > svg > rect {
+	width: 700px;
+}
+
+#chart_hourly_caption {
+	text-align: center;
+	font-size: 12px;
+	color: #b1b1b1;
 }
 
 #chart_cancelled {
-	margin-top: -15px;
+	margin-top: -18px;
 	margin-right: 15px;
+	margin-left: 10px;
+}
+
+#chart_cancelled > div {
+	height: 175px;
+}
+
+#chart_cancelled > div > div:nth-child(1) {
+	height: 175px;
+}
+
+#chart_cancelled > div > div:nth-child(1) > div {
+	height: 175px;
+}
+
+#chart_cancelled > div > div:nth-child(1) > div > svg {
+	height: 175px;
 }
 
 #chart_cancelled > div > div:nth-child(1) > div > svg > rect {
 	height: 175px;
+}
+
+#chart_cancelled_caption {
+	text-align: center;
+	font-size: 12px;
+	color: #b1b1b1;
 }
 
 #chart_daily {
@@ -147,6 +176,12 @@ body {
 
 .row.sankey {
 	margin-bottom: 20px;
+}
+
+#chart_top_collabs_caption {
+	text-align: center;
+	font-size: 12px;
+	color: #b1b1b1;
 }
 
 #meetings_created {
@@ -193,9 +228,7 @@ body {
 		margin: 0 auto;
     	width:80% 
 	}
-	#chart_hourly {
-		margin-left: -150px;
-	}
+	
 	#register-info {
 		margin-top: 55px;
 	}
@@ -241,21 +274,6 @@ body {
 	}
 	#chart_hourly_small_about {
 		margin-left: -115px;
-	}
-	#chart_hourly_small {
-		margin-left: -50px;
-	}
-	#chart_hourly_small > div > div:nth-child(1) {
-		max-width: 475px;
-	}
-	#chart_hourly_small > div > div:nth-child(1) > div {
-		max-width: 475px;
-	}
-	#chart_hourly_small > div > div:nth-child(1) > div > svg {
-		max-width: 475px;
-	}
-	#chart_hourly_small > div > div:nth-child(1) > div > svg > rect {
-		max-width: 475px;
 	}
 	#chart_daily {
 		margin-left: -50px;
