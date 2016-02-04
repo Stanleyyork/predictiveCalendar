@@ -281,17 +281,29 @@ body {
 	#chart_daily {
 		margin-left: -50px;
 	}
+	#chart_hourly_small > div > div:nth-child(1) {
+		max-width: 325px;
+	}
+	#chart_hourly_small > div > div:nth-child(1) > div {
+		width: 325px;
+	}
+	#chart_hourly_small > div > div:nth-child(1) > div > svg {
+		width: 325px;
+	}
+	#chart_hourly_small > div > div:nth-child(1) > div > svg > rect {
+		width: 325px;
+	}
 	#chart_daily > div > div:nth-child(1) {
-		max-width: 450px;
+		max-width: 325px;
 	}
 	#chart_daily > div > div:nth-child(1) > div {
-		max-width: 450px;
+		max-width: 325px;
 	}
 	#chart_daily > div > div:nth-child(1) > div > svg {
-		max-width: 450px;
+		max-width: 325px;
 	}
 	#chart_daily > div > div:nth-child(1) > div > svg > rect {
-		max-width: 450px;
+		max-width: 325px;
 	}
 	.col-sm-5.meetings-organized {
 		margin-bottom: 25px;
@@ -302,7 +314,10 @@ body {
 		text-align: center;
 	}
 	#meetings_recurrence {
-		margin-bottom: 25px;
+		margin-bottom: -10px;
+	}
+	#meetings_recurrence_copy {
+		margin-top: -20px;
 	}
 	#rating-headers {
 		font-size: 12px;
