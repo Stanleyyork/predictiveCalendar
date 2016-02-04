@@ -40,15 +40,21 @@ class CalendarClass
     if(events_array.next_page_token)
       sync(user, events_array.next_page_token)
     else
+      puts "inside no next page token"
       last_cal.next_sync_token = events_array.next_sync_token
       last_cal.save
+      puts "user: #{user}"
       user.syncing = false
+      puts "user: #{user}"
       user.save
     end
   end
 
   def parseAndSave(events_array, user, last_cal)
+    i = 0
     events_array.items.each do |e|
+    puts i
+    i += 1
       existEvent = Event.where(user_id: user.id).where(gcal_event_id: e.id).first
       event_attributes = {
         user_id: user.id,
