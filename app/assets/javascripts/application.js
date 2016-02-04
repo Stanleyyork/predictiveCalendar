@@ -14,8 +14,8 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require bootstrap
-//= require ratings.js
 //= require settings.js
+//= require ratings.js
 //= require_tree .
 
 $(function () {
