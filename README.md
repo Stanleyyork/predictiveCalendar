@@ -1,6 +1,7 @@
 # LunarCal - predictive calendar
 
 - <a href="http://lunacal.herokuapp.com" target="_blank">Website</a>
+- <a href="http://lunacal.herokuapp.com/stanleyyork" target="_blank">My Profile</a>
 - <a href="https://docs.google.com/document/d/1xDjVWUEedxpgN4s7318wuX9sstjZ792Tl_3M9i-EJrg/edit" target="_blank">Planning Document</a>
 
 ## Contents
