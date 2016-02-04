@@ -9,7 +9,7 @@ $(function() {
 	}
 
 	if(syncing === "true"){
-		console.log("sync in progress");
+		console.log("syncing = true");
 		$(".progress.hidden").removeClass("hidden");
 
 		progressBarCount();
