@@ -194,7 +194,8 @@ body {
 #meetings_recurrence {
 	font-size: 55px;
 	font-weight: bold;
-	margin-top: 25px;
+	margin-top: 20px;
+	margin-bottom: -20px;
 }
 
 #meetings_recurrence_copy {
