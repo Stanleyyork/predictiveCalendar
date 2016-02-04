@@ -1,13 +1,14 @@
 $(function() {
 
+	console.log("settings.js working");
 	var counter = 5;
 
-	if($('#sync').attributes){
+	if($('#sync')[0].attributes){
 		var syncing = $('#sync')[0].attributes.data.value;
 	} else {
 		var syncing = "false";
 	}
-
+	console.log(syncing);
 	if(syncing === "true"){
 		console.log("syncing = true");
 		$(".progress.hidden").removeClass("hidden");
