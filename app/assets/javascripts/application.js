@@ -15,6 +15,7 @@
 //= require bootstrap-sprockets
 //= require bootstrap
 //= require ratings.js
+//= require settings.js
 //= require_tree .
 
 $(function () {
