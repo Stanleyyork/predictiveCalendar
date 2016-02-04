@@ -34,8 +34,8 @@ Application that allows users to sync their Google calendar for analysis of:
 
 ## Future Features
 
-Primary: logistic regression model for predictions of future meetings ratings (1 - 5)
-Secondary: mutliple calendars, further visualization, etc.
+- Primary: logistic regression model for predictions of future meetings ratings (1 - 5)
+- Secondary: mutliple calendars, further visualization, etc.
 
 ---
 
