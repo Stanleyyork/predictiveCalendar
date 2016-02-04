@@ -2,7 +2,7 @@ $(function() {
 
 	console.log("settings.js working");
 	var counter = 5;
-	var incompletion_counter = 9;
+	var incompletion_counter = 0;
 
 	if($('#sync')[0]!==undefined){
 		var syncing = $('#sync')[0].attributes.data.value;
