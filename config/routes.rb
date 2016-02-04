@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/oauth2callback' => 'users#callback'
   get '/events/create' => 'events#create'
   get '/done_syncing' => 'users#done_syncing'
+  get 'sync_false' => 'users#sync_false'
 
   get '/events' => 'events#index'
   get '/analyze' => 'events#analyze'

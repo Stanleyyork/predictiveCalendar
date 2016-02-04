@@ -2,6 +2,7 @@ $(function() {
 
 	console.log("settings.js working");
 	var counter = 5;
+	var incompletion_counter = 9;
 
 	if($('#sync')[0]!==undefined){
 		var syncing = $('#sync')[0].attributes.data.value;
@@ -51,7 +52,16 @@ $(function() {
 							},1000);
 						},2000);
 				} else {
-					console.log(data);
+					console.log(data + incompletion_counter);
+					incompletion_counter += 1;
+					if(incompletion_counter === 4){
+						$('#progress-bar-check').append('Taking longer than expected, will keeping working in the background');
+						$.get('/sync_false', function(){
+							setInterval(function(){
+								window.location.replace("/profile");
+							},4000);
+						});
+					}
 				}
 		    },
 		    error: function (error) {

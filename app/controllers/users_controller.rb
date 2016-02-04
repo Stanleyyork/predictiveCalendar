@@ -148,6 +148,12 @@ class UsersController < ApplicationController
     render :text => "#{User.find(current_user.id).syncing}"
   end
 
+  def sync_false
+    u = current_user
+    u.syncing = false
+    u.save
+  end
+
 private
 
   def user_params
