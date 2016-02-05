@@ -72,6 +72,9 @@ class UsersController < ApplicationController
   def delete_calendar
     cal = Calendar.where(user_id: current_user.id).first
     events = cal.events
+    events.delete_all
+    cal.delete
+    redirect_to '/settings'
   end
 
   def create
@@ -103,10 +106,11 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    if @user.id == current_user.id
-      @user.destroy
+    if current_user
+      current_user.destroy
+      session[:user_id] = nil
       respond_to do |format|
-        format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+        format.html { redirect_to '/signup', notice: 'User was successfully destroyed.' }
         format.json { head :no_content }
       end
     else
