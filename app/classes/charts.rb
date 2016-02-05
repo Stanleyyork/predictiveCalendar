@@ -34,6 +34,7 @@ class GoogleChart
     )
     scatter_ratings_opts = {
       :width => 1100, :height => 600,
+      title: "#{title}",
       hAxis: {title: "#{attribute}", minValue: min, maxValue: max},
       vAxis: {title: 'Rating', minValue: 1, maxValue: 5},
       :trendlines => { 0 => {type: 'linear'}, 1 => {type: 'exponential'} }

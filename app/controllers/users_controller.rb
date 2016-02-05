@@ -74,6 +74,7 @@ class UsersController < ApplicationController
     events = cal.events
     events.delete_all
     cal.delete
+    flash[:notice] = "Calendar and events deleted"
     redirect_to '/settings'
   end
 
