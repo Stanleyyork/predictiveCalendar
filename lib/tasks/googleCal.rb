@@ -40,12 +40,9 @@ class CalendarClass
     if(events_array.next_page_token)
       sync(user, events_array.next_page_token)
     else
-      puts "inside no next page token"
       last_cal.next_sync_token = events_array.next_sync_token
       last_cal.save
-      puts "user: #{user}"
       user.syncing = false
-      puts "user: #{user}"
       user.save
     end
   end

@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   post '/users' => 'users#create'
   get '/settings' => 'users#edit'
   post '/settings' => 'users#update'
+  get '/delete_calendar' => 'users#delete_calendar'
+  get '/delete_account' => 'users#destroy'
 
   get '/import_events' => 'users#redirect'
   get '/oauth2callback' => 'users#callback'

@@ -67,7 +67,11 @@ class UsersController < ApplicationController
   end
 
   def index
-    
+  end
+
+  def delete_calendar
+    cal = Calendar.where(user_id: current_user.id).first
+    events = cal.events
   end
 
   def create
@@ -116,8 +120,8 @@ class UsersController < ApplicationController
       client_secret: ENV.fetch('GOOGLE_API_CLIENT_SECRET'),
       authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
       scope: Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY,
-      #redirect_uri: 'http://localhost:3000/oauth2callback'
-      redirect_uri: 'http://lunacal.herokuapp.com/oauth2callback'
+      redirect_uri: 'http://localhost:3000/oauth2callback'
+      #redirect_uri: 'http://lunacal.herokuapp.com/oauth2callback'
     })
 
     redirect_to client.authorization_uri.to_s
@@ -138,6 +142,11 @@ class UsersController < ApplicationController
       c.user_id = current_user.id
       c.code = response['access_token']
       c.save
+    else
+      c = Calendar.where(user_id: current_user.id).last
+      c.user_id = current_user.id
+      c.code = response['access_token']
+      c.save
     end
     @user.syncing = true
     @user.save
@@ -152,6 +161,7 @@ class UsersController < ApplicationController
     u = current_user
     u.syncing = false
     u.save
+    render :text => "User syncing false saved"
   end
 
 private
