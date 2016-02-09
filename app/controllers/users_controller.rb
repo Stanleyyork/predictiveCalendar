@@ -125,8 +125,8 @@ class UsersController < ApplicationController
       client_secret: ENV.fetch('GOOGLE_API_CLIENT_SECRET'),
       authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
       scope: Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY,
-      redirect_uri: 'http://localhost:3000/oauth2callback'
-      #redirect_uri: 'http://lunacal.herokuapp.com/oauth2callback'
+      #redirect_uri: 'http://localhost:3000/oauth2callback'
+      redirect_uri: 'http://lunacal.herokuapp.com/oauth2callback'
     })
 
     redirect_to client.authorization_uri.to_s
