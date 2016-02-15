@@ -1,16 +1,43 @@
-organizer_name: <%= @event.organizer_name  %><br>
-organizer_email: <%= @event.organizer_email  %><br>
-organizer: <%= @event.organizer  %><br>
-creator: <%= @event.creator  %><br>
-visibility: <%= @event.visibility  %><br>
-status: <%= @event.status  %><br>
-summary: <%= @event.summary  %><br>
-recurrence: <%= @event.recurrence  %><br>
-original_start_time: <%= @event.original_start_time  %><br>
-start: <%= @event.start  %><br>
-end: <%= @event.end  %><br>
-location: <%= @event.location  %><br>
-rating: <%= @event.rating  %><br>
-attendees:<% @attendees.each do |a|  %><br>
-	<%= a %><br>
-<% end %>
+<table class="table table-striped">
+<tbody>
+	<tr>
+		<td>Organizer Name</td><td><%= @event.organizer_name  %></td>
+	</tr>
+	<tr>
+		<td>Organizer Email</td><td><%= @event.organizer_email  %></td>
+	</tr>
+	<tr>
+		<td>Creator</td><td><%= @event.creator  %></td>
+	</tr>
+	<tr>
+		<td>Visibility</td><td><%= @event.visibility  %></td>
+	</tr>
+	<tr>
+		<td>Status</td><td><%= @event.status  %></td>
+	</tr>
+	<tr>
+		<td>Summary</td><td><%= @event.summary  %></td>
+	</tr>
+	<tr>
+		<td>Recurrence</td><td><%= @event.recurrence  %></td>
+	</tr>
+	<tr>
+		<td>Original Start Time</td><td><%= @event.original_start_time  %></td>
+	</tr>
+	<tr>
+		<td>Start</td><td><%= @event.start  %></td>
+	</tr>
+	<tr>
+		<td>End</td><td><%= @event.end  %></td>
+	</tr>
+	<tr>
+		<td>Location</td><td><%= @event.location  %></td>
+	</tr>
+	<tr>
+		<td>Rating</td><td><%= @event.rating  %></td>
+	</tr>
+	<tr>
+		<td>Attendees</td><td><%= @event.attendees.map{|a| "#{a.email} (#{a.response_status})"}.to_sentence %></td>
+	</tr>
+</tbody>
+</table>

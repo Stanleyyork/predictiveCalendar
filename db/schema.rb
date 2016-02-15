@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160203201341) do
+ActiveRecord::Schema.define(version: 20160215195621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "attendees", force: :cascade do |t|
-    t.integer  "gcal_attendee_id"
+    t.string   "gcal_attendee_id"
     t.string   "email"
     t.string   "display_name"
     t.boolean  "organizer"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20160203201341) do
     t.string   "event_id"
     t.integer  "round"
     t.integer  "user_id"
+    t.string   "gcal_event_id"
   end
 
   create_table "calendars", force: :cascade do |t|

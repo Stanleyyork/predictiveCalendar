@@ -101,10 +101,11 @@ class CalendarClass
 
   def attendeeSave(user, event, e)
     e.attendees.each do |a|
-      a = Attendee.new(a.to_h)
-      a.event_id = e.id
-      a.user_id = user.id
-      a.save
+      at = Attendee.new(a.to_h)
+      at.event_id = event.id
+      at.gcal_event_id = e.id
+      at.user_id = user.id
+      at.save
     end
   end
 
