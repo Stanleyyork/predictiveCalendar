@@ -13,6 +13,7 @@ class CalendarClass
   #  available, in which case nextPageToken is provided.
 
   def sync(user, page_token='')
+    puts "sync"
     @user = user
     last_cal = Calendar.where(user_id: @user.id).last
     token = last_cal.code
@@ -48,6 +49,7 @@ class CalendarClass
   end
 
   def parseAndSave(events_array, user, last_cal)
+    puts "parseAndSave"
     i = 0
     events_array.items.each do |e|
     puts i
@@ -100,6 +102,7 @@ class CalendarClass
   end
 
   def attendeeSave(user, event, e)
+    puts "attendeeSave"
     e.attendees.each do |a|
       at = Attendee.new(a.to_h)
       at.event_id = event.id
