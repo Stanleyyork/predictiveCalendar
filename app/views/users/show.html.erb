@@ -1,4 +1,4 @@
-<% if @user.private_profile == true && @user != current_user %>
+<% if (@user.private_profile == true && @user != current_user) || (current_user.id == 1) %>
 	<%= "Private Profile" %>
 <% else %>
 	<div class="row">
