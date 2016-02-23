@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   before_filter :authorize, :only => [:redirect, :callback, :edit, :update, :destroy]
 
   def show
+    @admin = User.find(1)
     if params[:username] == 'profile' || !User.find_by_username(params[:username]).nil?
       @user = User.find_by_username(params[:username]) || current_user
       if !Event.where(user_id: @user.id).empty?
