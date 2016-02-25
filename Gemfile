@@ -45,6 +45,9 @@ gem "google_visualr", ">= 2.5"
 gem 'classifier-reborn'
 gem 'fast-stemmer'
 
+gem 'algoliasearch'
+gem 'sprockets'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

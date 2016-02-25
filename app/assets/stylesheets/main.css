@@ -4,6 +4,19 @@ body {
 	color: #636363;
 }
 
+em {
+	font-weight: bold;
+	color: #5cb85c;
+}
+
+#results {
+	margin-top: 40px;
+}
+
+.powered_by {
+	font-size: 8px;
+}
+
 .homepage-photo {
   position: fixed; 
   top: 0; 

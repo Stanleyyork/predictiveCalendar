@@ -10,6 +10,7 @@
   
 </head>
 <body>
+<div class="current_user_id" type="hidden" data-id="<%= current_user.id %>" ></div>
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
 		<div class="row">
@@ -34,6 +35,9 @@
 						<a href="/profile" class="navbar-link"><%= current_user.nil? ? "Profile" : current_user.name %></a>
 					</p>
 					<p class="navbar-text navbar-right"><a href="/ratings" class="navbar-link">Ratings</a></p>
+					<% if current_user.email == "erinroselarsen@gmail.com" || current_user.email == "lunarcal3@gmail.com" || current_user.email == "stanleyyork@gmail.com" %>
+						<p class="navbar-text navbar-right"><a href="/search" class="navbar-link">Search</a></p>
+					<% end %>
 					<p class="navbar-text navbar-right"><a href="/settings" class="navbar-link">Settings</a></p>
 					<% if Event.where(user_id: current_user.id).where.not(rating: nil).count > 0 %>
 						<p class="navbar-text navbar-right"><a href="/analyze" class="navbar-link">Analyze</a></p>

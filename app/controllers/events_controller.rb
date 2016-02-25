@@ -56,6 +56,9 @@ class EventsController < ApplicationController
   end
 
   def update
+  end
+
+  def search
     
   end
 

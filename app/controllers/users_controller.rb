@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   before_filter :authorize, :only => [:redirect, :callback, :edit, :update, :destroy]
 
   def show
-    @admin = User.find(1)
+    @admin = User.find_by_email("stanleyyork@gmail.com")
     if params[:username] == 'profile' || !User.find_by_username(params[:username]).nil?
       @user = User.find_by_username(params[:username]) || current_user
       if !Event.where(user_id: @user.id).empty?
@@ -68,6 +68,17 @@ class UsersController < ApplicationController
   end
 
   def index
+  end
+
+  def algolia_data
+    render :json => {app_id: ENV.fetch('ALGOLIA_APPLICATION_ID'),
+      search_key: ENV.fetch('ALGOLIA_SEARCH_ONLY_KEY'),
+      dev_environment: ENV.fetch('ALGOLIA_ENV')
+    }
+  end
+
+  def seed_algolia
+    Event.load_algolia(current_user)
   end
 
   def delete_calendar
