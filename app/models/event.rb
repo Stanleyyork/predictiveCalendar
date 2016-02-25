@@ -35,7 +35,7 @@ class Event < ActiveRecord::Base
 
 	def self.load_algolia(user)
 		Algolia.init :application_id => ENV.fetch('ALGOLIA_APPLICATION_ID'), :api_key => ENV.fetch('ALGOLIA_API_KEY')
-		index = Algolia::Index.new(ENV.Fetch('ALGOLIA_ENV'))
+		index = Algolia::Index.new(ENV.fetch('ALGOLIA_ENV'))
 		index.set_settings({
 		  :attributesToIndex => ["creator", "organizer", "description", "original_start_time", "start", "summary", "rating", "attendee_count"]
 		})
