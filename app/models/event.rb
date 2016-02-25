@@ -5,10 +5,43 @@ class Event < ActiveRecord::Base
 	belongs_to :calendar
 	has_many :attendees, :dependent => :destroy
 
-	#[:attachments, :anyone_can_add_self, :created, :creator, :description, :end, :guests_can_invite_others, :guests_can_see_other_guests, :location, :organizer, :original_start_time, :recurrence, :start, :status, :summary, :updated, :visibility, :creator_self, :organizer_email, :organizer_self, :attendee_count],
-
 	def self.sync(user)
 		CalendarClass.new.sync(user)
+	end
+
+	def self.load_data_from_database(user)
+	  records = []
+	  Event.where(user_id: user.id).where(algolia: nil).each do |e|
+	  	record = {
+	  		"objectID": e.id,
+	  		"user_id": e.user_id,
+	  		"creator": e.creator,
+	  		"organizer": e.organizer,
+	  		"description": e.description,
+	  		"gcal_event_id": e.gcal_event_id,
+	  		"original_start_time": e.original_start_time,
+	  		"start": e.start,
+	  		"recurrence": e.recurrence,
+	  		"summary": e.summary,
+	  		"rating": e.rating,
+	  		"attendee_count": e.attendee_count
+	  	}
+	  	e.algolia = true
+	  	e.save
+	  	records.push(record)
+	  end
+	  return records
+	end
+
+	def self.load_algolia(user)
+		Algolia.init :application_id => ENV.fetch('ALGOLIA_APPLICATION_ID'), :api_key => ENV.fetch('ALGOLIA_API_KEY')
+		index = Algolia::Index.new(ENV.Fetch('ALGOLIA_ENV'))
+		index.set_settings({
+		  :attributesToIndex => ["creator", "organizer", "description", "original_start_time", "start", "summary", "rating", "attendee_count"]
+		})
+		Event.load_data_from_database.each_slice(1000) do |batch|
+		  index.add_objects(batch)
+		end
 	end
 
 end

@@ -1,0 +1,41 @@
+$(function() {
+
+	console.log("search.js working");
+	// Get current user id for Algolia search query
+	var user_id = $(".current_user_id")[0].dataset.id;
+
+	// Get environment keys (note: env variables had trouble surfacing in js file)
+	$.get('/algolia_data', function(data){
+		var client = algoliasearch(data.app_id, data.search_key);
+  		var index = client.initIndex(data.dev_environment);
+  		// After initializing items above, begin search functionality
+  		$('#search-box').on('keyup', function(){
+			index.search($('#search-box')[0].value, {
+			  numericFilters: 'user_id='+user_id
+			}, searchCallback);
+		});
+	});
+
+	// Send to user after getting search results
+	function searchCallback(err, content) {
+	  if (err) {
+	    return err;
+	  }
+
+	  $('.results').empty();
+	  
+	  if($('#search-box')[0].value === ""){
+			$('.results').empty();
+	  } else {
+		  content.hits.forEach(function(hit) {
+		  	$('.results').append("<hr>");
+		    for(var key in hit._highlightResult) {
+				$('.results').append("<b>" + key + "</b>" + ": " + hit._highlightResult[key].value + "<br>");
+			}
+			$('.results').append("<a href='/events/"+hit.objectID+"'>More Details</a>");
+		  });
+	  }
+
+	}
+
+});

@@ -16,6 +16,7 @@
 //= require bootstrap
 //= require settings.js
 //= require ratings.js
+//= require search.js.erb
 //= require_tree .
 
 $(function () {
