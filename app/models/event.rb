@@ -39,7 +39,7 @@ class Event < ActiveRecord::Base
 		index.set_settings({
 		  :attributesToIndex => ["creator", "organizer", "description", "original_start_time", "start", "summary", "rating", "attendee_count"]
 		})
-		Event.load_data_from_database.each_slice(1000) do |batch|
+		Event.load_data_from_database(user).each_slice(1000) do |batch|
 		  index.add_objects(batch)
 		end
 	end
