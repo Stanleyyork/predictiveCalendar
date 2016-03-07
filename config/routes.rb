@@ -27,8 +27,8 @@ Rails.application.routes.draw do
   post '/setratings' => 'events#update_ratings'
   get '/logreg' => 'events#logreg'
   get '/search' => 'events#search'
-  
-  get '/:username' => 'users#show'
   get '/profile' => 'users#show'
+  get '/:username' => 'users#show'
+  
 
 end
