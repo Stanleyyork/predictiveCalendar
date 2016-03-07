@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   def show
     @admin = User.find_by_email("stanleyyork@gmail.com")
-    if params[:username] == 'profile' || !User.find_by_username(params[:username]).nil?
+    if (params[:username] == 'profile' && current_user) || !User.find_by_username(params[:username]).nil?
       @user = User.find_by_username(params[:username]) || current_user
       if !Event.where(user_id: @user.id).empty?
         if @user.smart_query == true
@@ -55,6 +55,8 @@ class UsersController < ApplicationController
       else
         redirect_to '/settings'
       end
+    elsif(!current_user)
+      redirect_to '/login'
     else
       redirect_to '/profile'
     end
