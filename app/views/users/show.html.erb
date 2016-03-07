@@ -3,7 +3,7 @@
 <% else %>
 	<div class="row">
 		<p id="profile-name"><%= @user.name %></p>
-		<p id="profile-summary"  data-toggle="tooltip" data-placement="bottom" title="Average weekday data based on meetings from the past 90 days unless limited events"><%= "You've been to "%> <b><%= number_with_delimiter(@events_count, :delimiter => ',') %></b> <%= "total meetings. On an average weekday, you attend" %> <b><%= "#{@average_day_events_count.round} meetings" %></b> <%= ", mostly in the #{@events_morn_after}, collaborating with approximately " %><b><%= "#{@average_day_events_attendee_count.round} people" %></b><%= " during that time." %></p>
+		<p id="profile-summary"  data-toggle="tooltip" data-placement="bottom" title="Average weekday data based on meetings from the past 90 days unless < 5 events in previous 90 days, in which case it's averaging all events"><%= "You've been to "%> <b><%= number_with_delimiter(@events_count, :delimiter => ',') %></b> <%= "total meetings. On an average weekday, you attend" %> <b><%= "#{@average_day_events_count.round} meetings" %></b> <%= ", mostly in the #{@events_morn_after}, collaborating with approximately " %><b><%= "#{@average_day_events_attendee_count.round} people" %></b><%= " during that time." %></p>
 	</div>
 	<div class="row">
 		<div class="well beyond-edges">

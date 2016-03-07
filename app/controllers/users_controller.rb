@@ -23,8 +23,8 @@ class UsersController < ApplicationController
           @average_day_events_count = @events.where("start > ?", Date.today()-90).where("start < ?", Date.today()).count / ((Time.zone.now - @events.where("start > ?", Date.today()-90).where("start < ?", Date.today()).order(:start).first.start)/(3600*24))
           @average_day_events_attendee_count = ((@events.where("start > ?", Date.today()-90).where("start < ?", Date.today()).where.not(attendee_count: nil).pluck(:attendee_count).sum / @events.where("start > ?", Date.today()-90).where("start < ?", Date.today()).where.not(attendee_count: nil).pluck(:attendee_count).count.to_f)-1) * @average_day_events_count
         else
-          @average_day_events_count = @events.count / ((Time.zone.now - @events.order(:start).first.start)/(3600*24))
-          @average_day_events_attendee_count = ((@events.where.not(attendee_count: nil).pluck(:attendee_count).sum / @events.where.not(attendee_count: nil).pluck(:attendee_count).count.to_f)-1) * @average_day_events_count
+          @average_day_events_count = @events.count.to_f / ((Time.zone.now - @events.order(:start).first.start)/(3600*24))
+          @average_day_events_attendee_count = ((@events.where.not(attendee_count: nil).pluck(:attendee_count).sum.to_f / @events.where.not(attendee_count: nil).pluck(:attendee_count).count.to_f)-1) * @average_day_events_count
         end
         @events_count_recurrence = @events.where(recurrence: true).count
         
