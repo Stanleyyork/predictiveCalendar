@@ -12,9 +12,9 @@ class UsersController < ApplicationController
       @user = User.find_by_username(params[:username]) || current_user
       if !Event.where(user_id: @user.id).empty?
         if @user.smart_query == true
-          @events = Event.where(user_id: @user.id).where.not(status: 'cancelled').where.not("summary like ?", "%DNS%").where.not("summary like ?", "%OOO")
+          @events = Event.where(user_id: @user.id).where.not(start: nil).where.not(status: 'cancelled').where.not("summary like ?", "%DNS%").where.not("summary like ?", "%OOO")
         else
-          @events = Event.where(user_id: @user.id)
+          @events = Event.where(user_id: @user.id).where.not(start: nil)
         end
         @events_count = @events.count
 
