@@ -13,13 +13,14 @@ class CalendarClass
   #  available, in which case nextPageToken is provided.
 
   def sync(user, page_token='')
+    puts "inside sync"
     @user = user
     last_cal = Calendar.where(user_id: @user.id).last
     token = last_cal.code
     client = Signet::OAuth2::Client.new(access_token: token)
     service = Google::Apis::CalendarV3::CalendarService.new
     service.authorization = client
-
+    puts "post service.auth"
     # if(last_cal.next_sync_token)
     #   puts "sync token"
     #   puts "#{last_cal.next_sync_token}"
@@ -30,7 +31,9 @@ class CalendarClass
     else
       events_array = service.list_events('primary', max_results: 2500, page_token: page_token)
     end
-    
+    puts "events_array"
+    puts events_array.inspect
+    puts "events_array"
     if(events_array.items.empty?)
       return "No calendar events to sync."
     else
@@ -38,8 +41,10 @@ class CalendarClass
     end
 
     if(events_array.next_page_token)
+      puts "next_page_token"
       sync(user, events_array.next_page_token)
     else
+      puts "finished"
       last_cal.next_sync_token = events_array.next_sync_token
       last_cal.save
       user.syncing = false
