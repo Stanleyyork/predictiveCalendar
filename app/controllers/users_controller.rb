@@ -29,7 +29,8 @@ class UsersController < ApplicationController
         @events_count_recurrence = @events.where(recurrence: true).count
         
         # Queries for charts
-        @top_25_attendees = Attendee.where(user_id: @user.id).where.not("email like ?", "%resource.calendar.google.com%").group(:email).order('count_id desc').limit(25).count(:id)
+        # @top_25_attendees = Attendee.where(user_id: @user.id).where.not("email like ?", "%resource.calendar.google.com%").group(:email).order('count_id desc').limit(25).count(:id)
+        @top_25_attendees = @user.events.joins(:attendees).where.not("attendees.email like ?", "%resource.calendar.google.com%").group("attendees.email").order('count_events_id desc').limit(25).count("events.id")
         events_collabs_array = @top_25_attendees.each_with_index.map{|x,i| @user == current_user ? ["#{@user.name}", x[0].split("@").first, x[1]] : ["#{@user.name}", "J. Harbaugh-#{i}", x[1]]}
         @events_count_cancelled = Event.where(user_id: @user.id).where(status: 'cancelled').count
         @events_hourly_grouped = @events.group_by_hour_of_day(:start, time_zone: "Pacific Time (US & Canada)").count

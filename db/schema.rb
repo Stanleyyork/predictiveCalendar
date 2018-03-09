@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224234020) do
+ActiveRecord::Schema.define(version: 20180308234523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,10 +29,14 @@ ActiveRecord::Schema.define(version: 20160224234020) do
     t.integer  "additional_guests"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.string   "event_id"
     t.integer  "round"
     t.integer  "user_id"
     t.string   "gcal_event_id"
+  end
+
+  create_table "attendees_events", id: false, force: :cascade do |t|
+    t.integer "attendee_id"
+    t.integer "event_id"
   end
 
   create_table "calendars", force: :cascade do |t|
@@ -63,7 +67,6 @@ ActiveRecord::Schema.define(version: 20160224234020) do
 
   create_table "events", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "attendees_id"
     t.boolean  "attachments"
     t.boolean  "anyone_can_add_self"
     t.datetime "created"
@@ -97,7 +100,6 @@ ActiveRecord::Schema.define(version: 20160224234020) do
     t.integer  "round"
     t.string   "recurrence_value"
     t.integer  "attendee_count"
-    t.datetime "autoclassified_at"
     t.boolean  "algolia"
   end
 

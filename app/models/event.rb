@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
 
 	belongs_to :user
 	belongs_to :calendar
-	has_many :attendees, :dependent => :destroy
+	has_and_belongs_to_many :attendees
 
 	def self.sync(user)
 		CalendarClass.new.sync(user)
